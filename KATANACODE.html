@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>KATANACODE</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Bebas+Neue&family=Caveat:wght@600;700&display=swap">
+<style>
+:root{--bg:#07080C;--s:#10121A;--p:#8B5CF6;--c:#22D3EE;--t:#F8FAFC;--m:#9297A5;--ok:#43E7A1;--line:rgba(255,255,255,.1);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root[data-theme="light"]{--bg:#F5F6FA;--s:#fff;--t:#0b0c12;--m:#555b6b;--line:rgba(0,0,0,.12)}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:70px;height:100%}
+body{margin:0;background:var(--bg);color:var(--t);font:16px/1.65 Inter,system-ui,-apple-system,Segoe UI,sans-serif;-webkit-font-smoothing:antialiased;min-height:100%;overflow-x:hidden}
+a{color:inherit}:focus-visible{outline:2px solid var(--c);outline-offset:3px}
+.w{max-width:1100px;margin:auto;padding:0 20px}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;backdrop-filter:blur(14px);background:color-mix(in srgb,var(--bg) 70%,transparent);border-bottom:1px solid var(--line)}
+nav .w{display:flex;align-items:center;gap:26px;height:64px;overflow-x:auto}
+nav a{text-decoration:none;color:var(--m);font-size:14px;white-space:nowrap}nav a:hover{color:var(--t)}
+.logo{font-weight:800;letter-spacing:.15em;color:var(--t)!important;margin-right:auto}
+.btn{border:1px solid transparent;cursor:pointer;border-radius:10px;padding:10px 20px;font:600 14px inherit;font-family:inherit;background:var(--p);color:#fff;text-decoration:none;display:inline-block;transition:filter .2s,border-color .2s;box-shadow:0 6px 20px -8px var(--p)}
+.btn:hover{filter:brightness(1.12)}.btn.g{background:none;color:var(--t);border-color:var(--line);box-shadow:none}.btn.g:hover{border-color:var(--m)}
+.hero{padding:96px 0 72px;position:relative}.hg{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center}@media(max-width:860px){.hg,.fg{grid-template-columns:1fr}}
+.ey{font-size:12px;font-weight:600;letter-spacing:.16em;color:var(--c);margin:0 0 12px}
+.win{background:var(--s);border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:0 30px 60px -30px rgba(0,0,0,.6)}
+.win pre{border:0;border-radius:0;background:none}.win textarea{border:0;border-radius:0;background:transparent;min-height:170px}
+.wb{display:flex;align-items:center;gap:7px;padding:10px 14px;border-bottom:1px solid var(--line);font:12px 'JetBrains Mono',monospace;color:var(--m)}
+.wb i{width:10px;height:10px;border-radius:50%;background:#ff5f57}.wb i:nth-child(2){background:#febc2e}.wb i:nth-child(3){background:#28c840}.wb span{margin-left:8px}
+.wo{padding:10px 14px;border-top:1px solid var(--line);font:12px 'JetBrains Mono',monospace;color:var(--ok)}
+.cta{text-align:center;padding:56px 20px;border:1px solid var(--line);border-radius:20px;background:linear-gradient(135deg,rgba(139,92,246,.18),rgba(34,211,238,.08))}.cta h2{margin-bottom:22px}
+.fg{display:grid;grid-template-columns:2fr 1fr 1fr;gap:32px;margin:56px 0 28px}.fg a{display:block;color:var(--m);text-decoration:none;font-size:14px;padding:3px 0}.fg a:hover{color:var(--t)}.fg b{display:block;margin-bottom:8px}
+.hero:before{content:"";position:absolute;inset:-100px 0 0;background:radial-gradient(600px 300px at 20% 0,rgba(139,92,246,.35),transparent),radial-gradient(500px 300px at 85% 30%,rgba(34,211,238,.25),transparent);z-index:-1}
+h1{font-size:clamp(36px,5.4vw,66px);font-weight:800;line-height:1.05;margin:0 0 20px;letter-spacing:-.03em}
+h1 span{background:linear-gradient(90deg,var(--p),var(--c));-webkit-background-clip:text;background-clip:text;color:transparent}
+h2{font-size:clamp(28px,4vw,44px);margin:0 0 8px;letter-spacing:-.02em}
+.sec{padding:88px 0;border-top:1px solid var(--line)}.m{color:var(--m)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px;margin-top:20px}
+.card{background:var(--s);border:1px solid var(--line);border-radius:12px;padding:20px;transition:border-color .25s,background .25s}
+.card:hover{border-color:rgba(139,92,246,.6)}
+.tag{font-size:11px;padding:2px 9px;border-radius:99px;border:1px solid var(--line);color:var(--m)}.tag.ok{color:var(--ok);border-color:var(--ok)}
+pre,textarea{font:13px/1.6 'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace}
+pre{background:var(--s);border:1px solid var(--line);border-radius:12px;padding:14px;overflow-x:auto;margin:0}
+.k{color:var(--p)}.s2{color:var(--ok)}.f{color:var(--c)}
+.bar{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+input,select,textarea{background:var(--s);color:var(--t);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font:inherit}
+textarea{width:100%;min-height:190px;resize:vertical}
+.ws{display:grid;grid-template-columns:200px 1fr;gap:16px;margin-top:20px}
+@media(max-width:800px){.ws{grid-template-columns:1fr}}
+.ls button{display:block;width:100%;text-align:left;margin-bottom:8px;padding:10px;border-radius:10px;background:var(--s);color:var(--t);border:1px solid var(--line);cursor:pointer;font:inherit}
+.ls button[aria-current=true]{border-color:var(--c)}
+.out{background:#000;color:#d8e0f0;border-radius:12px;padding:12px;min-height:90px;white-space:pre-wrap;font:13px ui-monospace,monospace;margin-top:10px}
+.pass{color:var(--ok)}.fail{color:#ff6b81}
+.xp{height:8px;background:var(--line);border-radius:9px;overflow:hidden}.xp i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--p),var(--c));transition:width .6s}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px}.stats b{font-size:28px;display:block}
+details{background:var(--s);border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin-bottom:10px}
+.rv{opacity:0;transform:translateY(24px);transition:opacity .8s,transform .8s}.rv.on{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}.rv{opacity:1;transform:none}}
+#intro{position:fixed;inset:0;z-index:99;background:var(--bg);display:grid;place-items:center;transition:opacity .7s}
+#intro b{letter-spacing:.4em;font-size:22px}#intro i{display:block;height:2px;width:0;margin:14px auto 0;background:linear-gradient(90deg,var(--p),var(--c));animation:ln 1s forwards}
+@keyframes ln{to{width:220px}}
+#bg{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden}#bg canvas{position:absolute;inset:0;width:100%;height:100%}
+#bg:before,#bg:after{content:"";position:absolute;width:55vmax;height:55vmax;border-radius:50%;filter:blur(90px);opacity:.28;animation:dr 26s ease-in-out infinite alternate}
+#bg:before{background:var(--p);top:-20vmax;left:-15vmax}#bg:after{background:var(--c);bottom:-25vmax;right:-15vmax;animation-delay:-9s;opacity:.18}
+:root[data-theme="light"] #bg:before,:root[data-theme="light"] #bg:after{opacity:.12}
+@keyframes dr{to{transform:translate(12vmax,8vmax) scale(1.15)}}
+.ed{display:flex;height:250px}#gn{padding:12px 10px;text-align:right;color:var(--m);opacity:.6;user-select:none;overflow:hidden;white-space:pre;border-right:1px solid var(--line);font:13px/1.6 'JetBrains Mono',monospace;min-width:44px}
+.cw{position:relative;flex:1;min-width:0}
+#hl,#ed{position:absolute;inset:0;width:100%;height:100%;min-height:0;margin:0;padding:12px 14px;border:0;font:13px/1.6 'JetBrains Mono',monospace;white-space:pre;tab-size:2;resize:none}
+#hl{overflow:hidden;pointer-events:none;background:none;color:var(--t)}
+#ed{overflow:auto;color:transparent;caret-color:var(--t);background:transparent}#ed:focus-visible{outline:none}
+.ed:focus-within{box-shadow:inset 0 0 0 1px var(--c)}#ed::selection{background:rgba(139,92,246,.4)}
+.cm{color:var(--m);font-style:italic}.nm{color:#f59e0b}
+#pg{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--p),var(--c));z-index:100}
+nav a:not(.btn):not(.logo){padding:4px 0;border-bottom:2px solid transparent;transition:color .2s,border-color .2s}nav a.act:not(.btn):not(.logo){color:var(--t);border-color:var(--c)}
+.toast{position:fixed;right:20px;bottom:calc(20px + env(safe-area-inset-bottom,0px));background:var(--s);border:1px solid var(--ok);color:var(--ok);padding:10px 16px;border-radius:10px;z-index:100;font-weight:600;transform:translateY(20px);opacity:0;transition:transform .4s,opacity .4s;pointer-events:none}.toast.on{transform:none;opacity:1}
+.btn{transition:filter .2s,border-color .2s,transform .15s}
+@keyframes rise{from{opacity:0;transform:translateY(28px);filter:blur(8px)}}
+.hg>div:first-child>*{animation:rise .9s both cubic-bezier(.2,.8,.2,1)}
+.hg>div:first-child>:nth-child(1){animation-delay:1s}.hg>div:first-child>:nth-child(2){animation-delay:1.12s}.hg>div:first-child>:nth-child(3){animation-delay:1.26s}.hg>div:first-child>:nth-child(4){animation-delay:1.4s}
+.hg .win{animation:rise 1s 1.5s both cubic-bezier(.2,.8,.2,1),fl 6s 2.5s ease-in-out infinite alternate}@keyframes fl{to{transform:translateY(-10px)}}
+h1 span{background:linear-gradient(90deg,var(--p),var(--c),var(--p));background-size:200% 100%;-webkit-background-clip:text;background-clip:text;animation:sh 6s linear infinite}@keyframes sh{to{background-position:200% 0}}
+.card{transition:border-color .25s,background .25s,transform .2s ease-out}
+#end{padding-top:130px}
+#sh{position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;opacity:.5}#bg:before,#bg:after{display:none}
+.cta{background:rgba(7,8,12,.38);backdrop-filter:blur(6px)}
+:root[data-theme="light"] #sh{opacity:.45}:root[data-theme="light"] .cta{background:rgba(255,255,255,.55)}
+nav{position:fixed;left:0;right:0;top:0}nav .w{scrollbar-width:none}nav .w::-webkit-scrollbar{display:none}
+#gl{position:fixed;left:0;top:0;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(34,211,238,.16),rgba(139,92,246,.1) 40%,transparent 70%);z-index:-1;pointer-events:none;opacity:0;transition:opacity .4s;will-change:transform}
+#rg{position:fixed;left:0;top:0;width:28px;height:28px;border:1.5px solid var(--c);border-radius:50%;z-index:98;pointer-events:none;opacity:0;transition:opacity .3s,width .2s,height .2s,margin .2s,background .2s;will-change:transform}
+#rg.hv{width:44px;height:44px;margin:-8px 0 0 -8px;background:rgba(34,211,238,.12)}
+.card{position:relative;overflow:hidden}.card:before{content:"";position:absolute;inset:0;background:radial-gradient(240px circle at var(--mx,50%) var(--my,50%),rgba(139,92,246,.2),transparent 70%);opacity:0;transition:opacity .3s;pointer-events:none}.card:hover:before{opacity:1}
+#rg{display:none!important}
+@keyframes pop{from{opacity:0;transform:translateY(30px) scale(.95)}}
+.st{animation:pop .8s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:calc(var(--i,0)*70ms)}
+.wd{display:inline-block;opacity:0;transform:translateY(.7em) rotate(5deg);filter:blur(8px);transition:opacity .7s,transform .8s cubic-bezier(.2,.8,.2,1),filter .7s;transition-delay:calc(var(--w,0)*80ms)}
+.on .wd{opacity:1;transform:none;filter:none}
+.sw{animation:sw .55s cubic-bezier(.2,.8,.2,1)}@keyframes sw{from{opacity:0;transform:translateX(28px)}}
+.btn{position:relative;overflow:hidden}.rpl{position:absolute;border-radius:50%;background:rgba(255,255,255,.4);transform:scale(0);animation:rpl .65s ease-out forwards;pointer-events:none}@keyframes rpl{to{transform:scale(4);opacity:0}}
+.toast{transition:transform .55s cubic-bezier(.34,1.56,.64,1),opacity .3s}
+.card:hover{box-shadow:0 20px 44px -22px rgba(139,92,246,.6)}
+.cta{animation:pg 5s ease-in-out infinite}@keyframes pg{50%{box-shadow:0 0 70px -12px rgba(139,92,246,.55)}}
+.logo>span{display:inline-block;animation:lg 4s ease-in-out infinite}@keyframes lg{50%{transform:translateY(-2px) rotate(-6deg)}}
+.mq{overflow:hidden;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:14px 0;-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+.mq div{display:flex;width:max-content;animation:mq 32s linear infinite;color:var(--m);font:600 14px 'JetBrains Mono',monospace;letter-spacing:.12em;text-transform:uppercase}
+.mq span{padding-right:44px}.mq span:nth-child(odd){color:var(--c)}.mq:hover div{animation-play-state:paused}@keyframes mq{to{transform:translateX(-50%)}}
+.xp i{background-size:200% 100%;animation:xs 3s linear infinite}@keyframes xs{to{background-position:200% 0}}
+@media(prefers-reduced-motion:reduce){.wd{opacity:1;transform:none;filter:none}}
+html.cc,html.cc *{cursor:none!important}html.cc textarea,html.cc input,html.cc select{cursor:auto!important}
+#cd,#cr{position:fixed;left:0;top:0;pointer-events:none;opacity:0;will-change:transform;transition:opacity .25s}
+#cd{width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;background:linear-gradient(135deg,var(--p),var(--c));box-shadow:0 0 12px var(--c);z-index:99}
+#cr{width:36px;height:36px;margin:-18px 0 0 -18px;border-radius:38% 62% 55% 45%/50% 45% 55% 50%;border:1.5px solid var(--c);z-index:98;transition:opacity .25s,background .25s,border-color .25s}
+#cr.hv{background:rgba(139,92,246,.14);border-color:var(--p)}
+#cd.tx,#cr.tx{opacity:0!important}
+</style></head><body>
+<canvas id="sh" aria-hidden="true"></canvas><div id="bg" aria-hidden="true"><canvas id="cv"></canvas></div>
+<div id="gl" aria-hidden="true"></div><div id="rg" aria-hidden="true"></div><div id="pg" aria-hidden="true"></div><div class="toast" id="ts" role="status"></div><canvas id="cf" aria-hidden="true" style="position:fixed;inset:0;width:100%;height:100%;z-index:97;pointer-events:none"></canvas>
+<div id="intro" aria-hidden="true"><div style="text-align:center"><b>KATANACODE</b><i></i></div></div>
+<nav><div class="w"><a class="logo" href="#top"><span style="color:var(--c)">&lt;/&gt;</span> KATANACODE</a><a href="#languages">Languages</a><a href="#academy">Academy</a><a href="#compare">Compare</a><a href="#projects">Projects</a><a href="#dashboard">Dashboard</a><a href="#faq">FAQ</a><button class="btn g" id="th" aria-label="Toggle theme">Theme</button></div></nav>
+
+<section class="hero" id="top"><div class="w hg"><div>
+<p class="ey">MASTER THE LANGUAGE OF THE FUTURE.</p>
+<h1>YOUR NEXT LINE<br><span>CHANGES EVERYTHING.</span></h1>
+<p class="m" style="max-width:560px;font-size:18px">Master programming from the ground up. Learn any language, write real code, solve challenges, and build the future one line at a time.</p>
+<div class="bar"><a class="btn" href="#academy">START YOUR JOURNEY</a><a class="btn g" href="#languages">EXPLORE LANGUAGES</a></div>
+</div><div class="win"><div class="wb"><i></i><i></i><i></i><span>hello.js</span></div><pre><span class="k">function</span> <span class="f">hello</span>(name) {
+  <span class="k">return</span> <span class="s2">`Hello, ${name}!`</span>;
+}
+console.<span class="f">log</span>(<span class="f">hello</span>(<span class="s2">"KATANACODE"</span>));</pre><div class="wo">Expected output: Hello, KATANACODE!</div></div>
+</div></section>
+<section class="sec rv" id="core"><div class="w"><p class="ey">THE CORE</p><h2>Every language orbits one idea</h2><p class="m">Drag to rotate. Click a logo to jump to that language in the catalog.</p><div id="c3" style="height:min(70vh,520px);margin-top:24px;border:1px solid var(--line);border-radius:20px;overflow:hidden;background:radial-gradient(circle at 50% 50%,rgba(139,92,246,.2),transparent 65%)" role="img" aria-label="Interactive 3D scene of programming languages orbiting a central core"></div></div></section>
+
+<section class="sec rv" id="languages"><div class="w">
+<p class="ey">LANGUAGES</p><h2>The language universe</h2><p class="m">Choose any language and start learning. JavaScript runs your code in the browser; the other languages are checked by pattern matching and are not executed.</p>
+<div class="bar"><input id="q" placeholder="Search languages…" aria-label="Search languages"><select id="fc" aria-label="Category"><option value="">All categories</option><option>Web</option><option>General</option><option>Game</option><option>Systems</option></select><select id="fs" aria-label="Availability"><option value="">Any availability</option><option value="run">Runs in browser</option><option value="check">Pattern-checked</option></select><select id="fd" aria-label="Completion"><option value="">Any progress</option><option value="started">Started</option><option value="none">Not started</option></select></div>
+<div class="grid" id="cat" aria-live="polite"></div></div></section>
+
+<section class="sec rv" id="academy"><div class="w">
+<p class="ey">ACADEMY</p><h2>Interactive academy</h2><p class="m">Pick any language you want to learn. Write code, pass the checks, earn XP.</p><div class="bar"><select id="lg" aria-label="Choose a language"></select><span class="tag" id="ln"></span></div>
+<div class="ws"><div class="ls" id="ls"></div><div>
+<h3 id="lt" style="margin:0"></h3><p class="ey" style="margin:10px 0 0">STEP 1 · LEARN</p><p id="le"></p><ul id="kp" style="padding-left:20px;margin:0 0 12px"></ul><p class="m" id="exl" style="margin:0 0 6px;font-size:13px" hidden>Example</p><pre id="ex" style="margin:0 0 12px" hidden></pre><div class="bar" id="gb"><button class="btn" id="go">I understand, start the exercise →</button></div><div id="exr" hidden><p class="ey" style="margin:18px 0 0">STEP 2 · PRACTICE</p><p id="lo" style="margin:4px 0 8px"></p><button class="btn g" id="bk" style="margin-bottom:10px">← Back to the explanation</button>
+<div class="win"><div class="wb"><i></i><i></i><i></i><span>lesson.js</span></div><div class="ed"><div id="gn" aria-hidden="true"></div><div class="cw"><pre id="hl" aria-hidden="true"></pre><textarea id="ed" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Code editor"></textarea></div></div><div class="wo" id="st" style="color:var(--m)"></div></div>
+<div class="bar"><button class="btn" id="run">Run &amp; check</button><button class="btn g" id="rs">Reset</button><button class="btn g" id="cp">Copy</button><button class="btn g" id="hb">Hint</button><button class="btn g" id="nx">Next lesson →</button></div>
+<div class="out" id="out" role="status">Output appears here.</div>
+<div id="qz" class="card" style="margin-top:12px"></div></div></div></div></div></section>
+
+<section class="sec rv" id="projects"><div class="w"><p class="ey">PROJECT WORKSHOP</p><h2>Build real things</h2><p class="m">Guided project briefs with checklists. Tick items as you finish them. Progress is saved, and finishing a project earns 50 XP once.</p><div class="grid" id="pj"></div></div></section>
+<section class="sec rv" id="dashboard"><div class="w"><p class="ey">DASHBOARD</p><h2>Your progress</h2><p class="m">Saved in this browser only (localStorage prototype, not secure accounts).</p>
+<div class="stats card"><div><b id="sx">0</b>XP</div><div><b id="sl">1</b>Level</div><div><b id="sr">-</b>Rank</div><div><b id="ss">0</b>Day streak</div><div><b id="sd">0</b>Lessons done</div></div>
+<div class="xp" style="margin-top:12px"><i id="xb"></i></div><div class="card" id="dc" style="margin-top:20px"></div><h3 style="margin:32px 0 0">Achievements</h3><div class="grid" id="ac"></div><p><button class="btn g" id="rp">Reset progress</button></p></div></section>
+
+<section class="sec rv" id="compare"><div class="w"><p class="ey">COMPARE</p><h2>SAME IDEA. DIFFERENT LANGUAGE.</h2>
+<div class="bar"><select id="ct" aria-label="Topic"><option value="loop">Loops</option><option value="fn">Functions</option><option value="err">Error handling</option></select></div>
+<div class="grid" id="cg"></div></div></section>
+
+<section class="sec rv"><div class="w"><h2>How it works</h2><div class="grid"><div class="card"><b>1. Pick</b><p class="m">Choose a language from the catalog.</p></div><div class="card"><b>2. Code</b><p class="m">Edit the starter code and run it safely.</p></div><div class="card"><b>3. Pass</b><p class="m">Tests check your answer and award XP once.</p></div></div></div></section>
+
+<section class="sec rv" id="faq"><div class="w"><h2>FAQ</h2>
+<details><summary>Is my code run on a server?</summary><p class="m">No. It runs in a sandboxed iframe in your browser with a 3-second timeout.</p></details>
+<details><summary>Which languages run?</summary><p class="m">JavaScript runs in a browser sandbox. Every other language has lessons too, but your answer is checked by pattern matching and the code is not executed. Real execution needs a runtime or a backend, which is not built yet.</p></details>
+<details><summary>Is there an AI tutor?</summary><p class="m">Not in this build. It needs a server-side API key, so it is not faked here.</p></details></div></section>
+
+<footer class="sec" id="end"><div class="w"><div class="cta"><h2>THE NEXT GREAT DEVELOPER COULD BE YOU.</h2><a class="btn" href="#academy">ENTER KATANACODE</a></div><div class="fg"><div><b>KATANACODE</b><p class="m" style="font-size:14px;max-width:320px">Learn to code with real exercises, safe in-browser execution and honest progress tracking.</p></div><div><b>Product</b><a href="#languages">Languages</a><a href="#academy">Academy</a><a href="#compare">Compare</a><a href="#dashboard">Dashboard</a></div><div><b>Help</b><a href="#faq">FAQ</a><a href="#top">Back to top</a></div></div><p class="m" style="font-size:13px">© 2026 KATANACODE · Prototype build</p></div></footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+const L=[["JavaScript","Web","Beginner","lessons"],["HTML","Web","Beginner"],["CSS","Web","Beginner"],["TypeScript","Web","Intermediate"],["SQL","Web","Beginner"],["PHP","Web","Intermediate"],["Python","General","Beginner"],["Java","General","Intermediate"],["C++","General","Advanced"],["Go","General","Intermediate"],["Rust","General","Advanced"],["Lua","Game","Beginner"],["GDScript","Game","Beginner"],["Bash","Systems","Intermediate"]];
+const LS=[
+{t:"Variables",e:"A variable stores a value. Use const when it never changes and let when it will.",o:"Declare a constant city = \"Paris\" and a variable score = 10.",s:"// your code\n",h:"const city = \"Paris\"; let score = 10;",T:[["city is Paris","city===\"Paris\""],["score is 10","score===10"]],q:["Which keyword makes a value unchangeable?",["let","const","var"],1]},
+{t:"Loops",e:"A for loop repeats code a set number of times.",o:"Write sum(n) that returns 1+2+…+n using a loop.",s:"function sum(n){\n  \n}\n",h:"Start total at 0, loop i from 1 to n, add i.",T:[["sum(5)=15","sum(5)===15"],["sum(0)=0","sum(0)===0"]],q:["How many times does for(let i=0;i<3;i++) run?",["2","3","4"],1]},
+{t:"Functions",e:"A function packages reusable logic and returns a result.",o:"Write isEven(n) returning true for even numbers.",s:"function isEven(n){\n  \n}\n",h:"Use the remainder operator: n % 2 === 0.",T:[["isEven(4)","isEven(4)===true"],["isEven(7)","isEven(7)===false"]],q:["What does return do?",["Prints a value","Sends a value back","Starts a loop"],1]},
+{t:"Arrays",e:"An array holds an ordered list of values. Indexes start at 0, and arr.length gives the size.",o:"Write last(arr) that returns the final item of an array.",s:"function last(arr){\n  \n}\n",h:"The last index is arr.length - 1.",T:[["last([1,2,3])=3","last([1,2,3])===3"],["last([\"a\"])=a","last([\"a\"])===\"a\""]],q:["What is the index of the first item?",["0","1","-1"],0]},
+{t:"Strings",e:"Strings are text. Methods like toUpperCase() return a new string, and + joins strings together.",o:"Write shout(text) that returns the text in capitals with ! at the end.",s:"function shout(text){\n  \n}\n",h:"Combine text.toUpperCase() with \"!\".",T:[["shout(hi)=HI!","shout(\"hi\")===\"HI!\""],["shout empty = !","shout(\"\")===\"!\""]],q:["Which method makes text uppercase?",["toUpperCase","upper","capitalize"],0]}];
+const CMP={loop:{Python:"for i in range(3):\n    print(i)",JavaScript:"for (let i=0;i<3;i++) {\n  console.log(i);\n}",Java:"for (int i=0;i<3;i++) {\n  System.out.println(i);\n}","C++":"for (int i=0;i<3;i++) {\n  std::cout << i << \"\\n\";\n}"},
+fn:{Python:"def add(a, b):\n    return a + b",JavaScript:"const add = (a, b) => a + b;",Java:"static int add(int a, int b) {\n  return a + b;\n}","C++":"int add(int a, int b) {\n  return a + b;\n}"},
+err:{Python:"try:\n    risky()\nexcept ValueError as e:\n    print(e)",JavaScript:"try {\n  risky();\n} catch (e) {\n  console.log(e.message);\n}",Java:"try {\n  risky();\n} catch (Exception e) {\n  System.out.println(e.getMessage());\n}","C++":"try {\n  risky();\n} catch (const std::exception& e) {\n  std::cout << e.what();\n}"}};
+const R=["Code Rookie","Junior Developer","Code Explorer","Software Architect","Code Master"];
+const day=()=>new Date().toISOString().slice(0,10);
+let S={xp:0,done:{},quiz:{},last:"",streak:0,proj:{},ach:{},dc:""};
+try{S=Object.assign(S,JSON.parse(localStorage.getItem("cv")||"{}"))}catch(e){}
+const save=()=>{try{localStorage.setItem("cv",JSON.stringify(S))}catch(e){}};
+function award(n){toast("+"+n+" XP");if(n>=30)burst();S.xp+=n;const d=day();if(S.last!==d){const y=new Date(Date.now()-864e5).toISOString().slice(0,10);S.streak=S.last===y?S.streak+1:1;S.last=d}save();dash()}
+function dash(){const lv=Math.floor(S.xp/100)+1;$("sx").textContent=S.xp;$("sl").textContent=lv;$("sr").textContent=R[Math.min(R.length-1,Math.floor((lv-1)/3))];$("ss").textContent=S.streak;$("sd").textContent=Object.keys(S.done).length;$("xb").style.width=(S.xp%100)+"%";cat();menu();pj();ac();dc()}
+const RAW={
+Python:[
+["Variables and print","A variable stores a value. Python needs no keyword to create one, and print() shows a value on screen.",`name = "Ada"
+age = 30
+print(name)`,"Create name = \"Ada\" and age = 30, then print(name).","name = \"Ada\" on one line, age = 30 on the next, then print(name).",[["name is Ada",/name\s*=\s*["']Ada["']/],["age is 30",/age\s*=\s*30\b/],["prints name",/print\(\s*name\s*\)/]],["Which function shows a value?",["echo","print()","console.log"],1]],
+["Loops","A for loop repeats code. range(5) gives 0, 1, 2, 3, 4. Indentation marks the loop body.",`for i in range(3):
+    print(i)`,"Print the numbers 0 to 4 with a for loop and range.","for i in range(5): then an indented print(i).",[["for loop with range",/for\s+\w+\s+in\s+range\(/],["range(5)",/range\(\s*5\s*\)/],["prints inside",/print\(/]],["What does range(3) produce?",["1,2,3","0,1,2","0,1,2,3"],1]],
+["Functions","def defines a function. return sends a value back.",`def add(a, b):
+    return a + b`,"Write def double(n) that returns n * 2.","def double(n): then return n * 2 indented.",[["def double(n):",/def\s+double\s*\(\s*n\s*\)\s*:/],["returns n * 2",/return\s+(n\s*\*\s*2|2\s*\*\s*n)/]],["Which keyword defines a function?",["function","def","fn"],1]]],
+Java:[
+["Variables","Java is typed: you state the type. int holds whole numbers and String holds text. Each statement ends with a semicolon.",`int age = 30;
+String name = "Ada";`,"Declare int age = 30; and String name = \"Ada\";","Type, name, equals, value, semicolon.",[["int age = 30;",/int\s+age\s*=\s*30\s*;/],["String name = \"Ada\";",/String\s+name\s*=\s*"Ada"\s*;/]],["Which type stores whole numbers?",["String","int","boolean"],1]],
+["Loops","A for loop has three parts: start, condition and step.",`for (int i = 0; i < 3; i++) {
+  System.out.println(i);
+}`,"Print 0 to 4 with a for loop and System.out.println.","for (int i = 0; i < 5; i++) { ... }",[["for loop from 0",/for\s*\(\s*int\s+\w+\s*=\s*0/],["i < 5",/<\s*5\b/],["println",/System\.out\.println\(/]],["Which prints a line?",["System.out.println","print()","echo"],0]],
+["Methods","A method declares its return type. void means it returns nothing.",`static int add(int a, int b) {
+  return a + b;
+}`,"Write static int twice(int n) that returns n * 2.","static int twice(int n) { return n * 2; }",[["static int twice(int n)",/static\s+int\s+twice\s*\(\s*int\s+n\s*\)/],["returns n * 2",/return\s+(n\s*\*\s*2|2\s*\*\s*n)\s*;/]],["What does void mean?",["Returns text","Returns nothing","Returns a number"],1]]],
+"C++":[
+["Variables","C++ is typed. Strings come from the standard library, so you write std::string.",`int age = 30;
+std::string name = "Ada";`,"Declare int age = 30; and std::string name = \"Ada\";","Do not forget the semicolons.",[["int age = 30;",/int\s+age\s*=\s*30\s*;/],["std::string name",/std::string\s+name\s*=\s*"Ada"\s*;/]],["Which header provides std::cout?",["<iostream>","<stdio>","<string>"],0]],
+["Loops","for has three parts: start, condition, step. std::cout prints.",`for (int i = 0; i < 3; i++) {
+  std::cout << i << "\n";
+}`,"Print 0 to 4 with a for loop and std::cout.","for (int i = 0; i < 5; i++) { std::cout << i; }",[["for loop from 0",/for\s*\(\s*int\s+\w+\s*=\s*0/],["i < 5",/<\s*5\b/],["std::cout",/std::cout\s*<</]],["What does i++ do?",["Adds 1 to i","Doubles i","Prints i"],0]],
+["Functions","A function states its return type first.",`int add(int a, int b) {
+  return a + b;
+}`,"Write int twice(int n) that returns n * 2.","int twice(int n) { return n * 2; }",[["int twice(int n)",/int\s+twice\s*\(\s*int\s+n\s*\)/],["returns n * 2",/return\s+(n\s*\*\s*2|2\s*\*\s*n)\s*;/]],["What ends a statement?",[".",";",":"],1]]],
+Go:[
+["Variables","Go has := to declare and assign in one step, and var for typed declarations.",`name := "Ada"
+var age int = 30`,"Declare name := \"Ada\" and var age int = 30.","One line each.",[["name := \"Ada\"",/name\s*:=\s*"Ada"/],["var age int = 30",/var\s+age\s+int\s*=\s*30/]],["What does := do?",["Declares and assigns","Compares","Imports"],0]],
+["Loops","Go has only one loop keyword: for.",`for i := 0; i < 3; i++ {
+  fmt.Println(i)
+}`,"Print 0 to 4 with a for loop and fmt.Println.","for i := 0; i < 5; i++ { ... }",[["for i := 0;",/for\s+\w+\s*:=\s*0\s*;/],["i < 5",/<\s*5\b/],["fmt.Println",/fmt\.Println\(/]],["Which loop keyword does Go use?",["while","for","loop"],1]],
+["Functions","func declares a function. Types come after the names.",`func add(a int, b int) int {
+  return a + b
+}`,"Write func twice(n int) int that returns n * 2.","func twice(n int) int { return n * 2 }",[["func twice(n int) int",/func\s+twice\s*\(\s*n\s+int\s*\)\s+int/],["returns n * 2",/return\s+(n\s*\*\s*2|2\s*\*\s*n)/]],["Which keyword declares a function?",["def","func","fn"],1]]],
+Rust:[
+["Variables","let creates a variable. Variables are immutable unless you add mut.",`let name = "Ada";
+let mut age = 30;`,"Declare let name = \"Ada\"; and let mut age = 30;","mut makes a variable changeable.",[["let name = \"Ada\";",/let\s+name\s*=\s*"Ada"\s*;/],["let mut age = 30;",/let\s+mut\s+age\s*=\s*30\s*;/]],["By default, variables are...",["Mutable","Immutable","Global"],1]],
+["Loops","for loops over ranges. 0..5 means 0 up to 4. println! is a macro, so it has a !.",`for i in 0..3 {
+  println!("{}", i);
+}`,"Print 0 to 4 using for and 0..5.","for i in 0..5 { println!(\"{}\", i); }",[["for i in 0..5",/for\s+\w+\s+in\s+0\.\.5/],["println!",/println!\(/]],["What does 0..5 include?",["0 to 5","0 to 4","1 to 5"],1]],
+["Functions","fn declares a function and -> gives the return type. The last expression is returned.",`fn add(a: i32, b: i32) -> i32 {
+  a + b
+}`,"Write fn twice(n: i32) -> i32 that returns n * 2.","fn twice(n: i32) -> i32 { n * 2 }",[["fn twice(n: i32) -> i32",/fn\s+twice\s*\(\s*n\s*:\s*i32\s*\)\s*->\s*i32/],["n * 2",/(n\s*\*\s*2|2\s*\*\s*n)/]],["Which arrow shows the return type?",["=>","->",":"],1]]],
+Lua:[
+["Variables","local makes a variable that is limited to its scope. Lua has no semicolon requirement.",`local name = "Ada"
+local age = 30`,"Declare local name = \"Ada\" and local age = 30.","Use the local keyword.",[["local name",/local\s+name\s*=\s*"Ada"/],["local age",/local\s+age\s*=\s*30/]],["Which keyword makes a local variable?",["let","local","var"],1]],
+["Loops","A numeric for loop is for i = start, stop do ... end.",`for i = 1, 3 do
+  print(i)
+end`,"Print 0 to 4 with a numeric for loop.","for i = 0, 4 do print(i) end",[["for i = 0, 4 do",/for\s+\w+\s*=\s*0\s*,\s*4\s+do/],["print",/print\(/],["end",/\bend\b/]],["What ends a for block?",["}","end","done"],1]],
+["Functions","function defines a function and end closes it.",`function add(a, b)
+  return a + b
+end`,"Write function twice(n) that returns n * 2.","function twice(n) return n * 2 end",[["function twice(n)",/function\s+twice\s*\(\s*n\s*\)/],["returns n * 2",/return\s+(n\s*\*\s*2|2\s*\*\s*n)/],["end",/\bend\b/]],["Lua tables usually start at index...",["0","1","-1"],1]]],
+GDScript:[
+["Variables","GDScript is the language of the Godot engine. var creates a variable and a type is optional.",`var player_name = "Ada"
+var health: int = 100`,"Declare var player_name = \"Ada\" and var health: int = 100.","Type goes after a colon.",[["var player_name",/var\s+player_name\s*=\s*"Ada"/],["var health: int = 100",/var\s+health\s*:\s*int\s*=\s*100/]],["Which engine uses GDScript?",["Unity","Godot","Unreal"],1]],
+["Loops","for loops over a range. Indentation marks the body, like Python.",`for i in range(3):
+    print(i)`,"Print 0 to 4 with for and range(5).","for i in range(5): then an indented print(i).",[["for with range(5)",/for\s+\w+\s+in\s+range\(\s*5\s*\)\s*:/],["print",/print\(/]],["Blocks are marked by...",["Braces","Indentation","end"],1]],
+["Functions","func declares a function.",`func add(a, b):
+    return a + b`,"Write func twice(n) that returns n * 2.","func twice(n): then return n * 2.",[["func twice(n)",/func\s+twice\s*\(\s*n\b/],["returns n * 2",/return\s+(n\s*\*\s*2|2\s*\*\s*n)/]],["Which keyword defines a function?",["def","func","function"],1]]],
+Bash:[
+["Variables","Assign with no spaces around =. Read a variable with $.",`name="Ada"
+echo $name`,"Set name=\"Ada\" and print it with echo.","No spaces around the equals sign.",[["name=\"Ada\"",/name\s*=\s*["']Ada["']/],["echo $name",/echo\s+["']?\$\{?name\}?["']?/]],["Spaces around = in an assignment are...",["Required","Not allowed","Optional"],1]],
+["Loops","for ... in ... ; do ... done repeats commands.",`for i in 1 2 3; do
+  echo $i
+done`,"Print the numbers 1 to 5 with a for loop.","for i in 1 2 3 4 5; do echo $i; done",[["for ... in",/for\s+\w+\s+in\b/],["do",/\bdo\b/],["echo",/echo\b/],["done",/\bdone\b/]],["What closes a for loop?",["end","done","}"],1]],
+["Functions","A function is a name, parentheses and a block in braces.",`greet() {
+  echo "Hello"
+}
+greet`,"Write a function greet that echoes Hello, then call it.","greet() { echo Hello; } then call greet.",[["function greet",/greet\s*\(\s*\)\s*\{|function\s+greet/],["echo",/echo\b/],["call greet",/(^|\n|;)\s*greet\s*($|\n|;)/]],["How do you call the function?",["greet()","greet","call greet"],1]]],
+TypeScript:[
+["Typed variables","TypeScript adds static types to JavaScript. You write the type after a colon.",`const name: string = "Ada";
+let age: number = 30;`,"Declare const name: string = \"Ada\" and let age: number = 30.","Add a type after the variable name.",[["name: string",/const\s+name\s*:\s*string\s*=\s*["']Ada["']/],["age: number",/let\s+age\s*:\s*number\s*=\s*30/]],["What does TypeScript add to JavaScript?",["Static types","A faster engine","CSS"],0]],
+["Loops","Loops are the same as JavaScript.",`for (let i = 0; i < 3; i++) {
+  console.log(i);
+}`,"Print 0 to 4 with a for loop and console.log.","for (let i = 0; i < 5; i++) { ... }",[["for loop",/for\s*\(\s*let\s+\w+/],["i < 5",/<\s*5\b/],["console.log",/console\.log\(/]],["Which type holds true or false?",["bool","boolean","bit"],1]],
+["Typed functions","Parameters and return values can have types.",`function add(a: number, b: number): number {
+  return a + b;
+}`,"Write function twice(n: number): number that returns n * 2.","Types after the parameter and after the parentheses.",[["twice(n: number): number",/function\s+twice\s*\(\s*n\s*:\s*number\s*\)\s*:\s*number/],["returns n * 2",/return\s+(n\s*\*\s*2|2\s*\*\s*n)/]],["Where does the return type go?",["Before the name","After the parameter list","Inside the body"],1]]],
+PHP:[
+["Variables","PHP variables start with $. echo prints text.",`$name = "Ada";
+$age = 30;
+echo $name;`,"Create $name = \"Ada\"; and $age = 30; then echo $name;","Do not forget the $ sign.",[["$name = \"Ada\";",/\$name\s*=\s*["']Ada["']\s*;/],["$age = 30;",/\$age\s*=\s*30\s*;/],["echo $name",/echo\s+\$name/]],["Variables start with...",["@","$","#"],1]],
+["Loops","for has start, condition and step. A dot joins strings.",`for ($i = 0; $i < 3; $i++) {
+  echo $i . "\n";
+}`,"Print 0 to 4 with a for loop and echo.","for ($i = 0; $i < 5; $i++) { echo $i; }",[["for loop from 0",/for\s*\(\s*\$\w+\s*=\s*0/],["$i < 5",/<\s*5\b/],["echo",/echo\b/]],["Which operator joins strings?",["+",".","&"],1]],
+["Functions","function declares a function. Parameters also start with $.",`function add($a, $b) {
+  return $a + $b;
+}`,"Write function twice($n) that returns $n * 2.","function twice($n) { return $n * 2; }",[["function twice($n)",/function\s+twice\s*\(\s*\$n\s*\)/],["returns $n * 2",/return\s+(\$n\s*\*\s*2|2\s*\*\s*\$n)/]],["PHP code starts with...",["<?php","<?js","<%"],0]]],
+SQL:[
+["SELECT","SELECT chooses which columns to read from a table. * means all columns.",`SELECT name FROM users;`,"Select every column from the table users.","SELECT * FROM users;",[["SELECT * FROM users",/select\s+\*\s+from\s+users/i]],["What does * mean in SELECT?",["All columns","First row","A count"],0]],
+["WHERE","WHERE keeps only the rows that match a condition.",`SELECT name FROM users WHERE age > 30;`,"Select name from users where age is greater than 18.","SELECT name FROM users WHERE age > 18;",[["select name from users",/select\s+name\s+from\s+users/i],["where age > 18",/where\s+age\s*>\s*18/i]],["Which clause filters rows?",["WHERE","ORDER BY","GROUP"],0]],
+["ORDER BY","ORDER BY sorts the rows. DESC sorts from high to low.",`SELECT name FROM users ORDER BY name ASC;`,"Select name from users ordered by age descending.","ORDER BY age DESC",[["select name from users",/select\s+name\s+from\s+users/i],["order by age desc",/order\s+by\s+age\s+desc/i]],["Which keywords sort rows?",["SORT","ORDER BY","ARRANGE"],1]]],
+HTML:[
+["Headings and paragraphs","HTML uses tags. h1 is the biggest heading and p is a paragraph.",`<h1>Welcome</h1>
+<p>My first page.</p>`,"Write an h1 with the text Hello and a p with a short sentence.","<h1>Hello</h1> then <p>...</p>",[["h1 with text",/<h1[^>]*>[^<]+<\/h1>/i],["p with text",/<p[^>]*>[^<]+<\/p>/i]],["Which tag is the biggest heading?",["<h6>","<h1>","<head>"],1]],
+["Links and images","a makes a link with href. img shows an image with src.",`<a href="https://example.com">Visit</a>
+<img src="cat.png" alt="A cat">`,"Add a link with an href and text, and an image with a src.","<a href=\"...\">text</a> and <img src=\"...\">",[["link with href",/<a\s+[^>]*href\s*=\s*["'][^"']+["'][^>]*>[^<]+<\/a>/i],["image with src",/<img\s+[^>]*src\s*=\s*["'][^"']+["']/i]],["Which attribute holds the link address?",["src","href","url"],1]],
+["Lists","ul is a bulleted list and ol is numbered. Each item is an li.",`<ul>
+  <li>One</li>
+  <li>Two</li>
+</ul>`,"Write a ul with at least two li items.","<ul><li>..</li><li>..</li></ul>",[["opening ul",/<ul[^>]*>/i],["two li items",/<li[^>]*>[^<]+<\/li>[\s\S]*<li[^>]*>[^<]+<\/li>/i],["closing ul",/<\/ul>/i]],["What does ol make?",["Bulleted list","Numbered list","Table"],1]]],
+CSS:[
+["Selectors and colour","A rule has a selector and declarations in braces. color changes text colour.",`h1 {
+  color: blue;
+}`,"Make every h1 red.","h1 { color: red; }",[["h1 rule with red colour",/h1\s*\{[^}]*color\s*:\s*red/i]],["Which property changes text colour?",["font","color","text"],1]],
+["Classes and the box","A class selector starts with a dot. padding adds space inside, and border draws an outline.",`.card {
+  padding: 16px;
+  border: 1px solid gray;
+}`,"Style a .card class with padding and a background or a border.",".card { padding: ...; border: ...; }",[[".card with padding",/\.card\s*\{[^}]*padding\s*:/i],["background or border",/\.card\s*\{[^}]*(background|border)/i]],["Class selectors start with...",[".","#","@"],0]],
+["Flexbox","display: flex lays children out in a row. justify-content, align-items and gap control spacing.",`.row {
+  display: flex;
+  gap: 8px;
+}`,"Make a .row a flex container with a gap or alignment.",".row { display: flex; gap: 8px; }",[["display: flex",/display\s*:\s*flex/i],["gap or alignment",/(justify-content|align-items|gap)\s*:/i]],["Which value turns on flexbox?",["display: flex","position: flex","flex: on"],0]]]
+};
+const X={
+Python:[["Conditionals","if, elif and else pick a path. Each condition ends with a colon.","if x > 0:\n    print(\"pos\")\nelse:\n    print(\"other\")","Write if x > 0: print(\"positive\") with an else branch.","if x > 0: then else:",[["if x > 0:",/if\s+x\s*>\s*0\s*:/],["else:",/else\s*:/]],["Python's else-if keyword?",["elseif","elif","else if"],1]],
+["Lists","A list holds ordered items in []. append() adds one, len() counts.","f = [\"a\", \"b\"]\nf.append(\"c\")\nprint(len(f))","Create fruits = [\"apple\",\"pear\"], append \"fig\", print len(fruits).","Use fruits.append(...) and len(fruits).",[["fruits list",/fruits\s*=\s*\[/],["append",/fruits\.append\(/],["len",/len\(\s*fruits\s*\)/]],["First index of a list?",["0","1","-1"],0]],
+["Strings","f-strings put variables inside text: f\"Hi {name}\".","name = \"Ada\"\nprint(f\"Hi {name}\")","Print an f-string that greets name.","print(f\"Hello, {name}!\")",[["f-string",/f[\"'][^\"']*\{name\}/],["print",/print\(/]],["What does the f before a string do?",["Formats {}","Makes it float","Frees memory"],0]]],
+Java:[["Conditionals","if / else if / else choose a path. Conditions sit in parentheses.","if (x > 0) {\n  System.out.println(\"pos\");\n} else {\n  System.out.println(\"other\");\n}","Write if (x > 0) { ... } else { ... }.","Parentheses around the condition, braces around bodies.",[["if (x > 0)",/if\s*\(\s*x\s*>\s*0\s*\)/],["else",/else\s*\{/]],["Condition goes in...",["()","[]","<>"],0]],
+["Arrays","An array has a fixed size and a type. Index from 0; .length is the size.","int[] a = {1, 2, 3};\nint n = a.length;","Declare int[] nums = {1, 2, 3}; and int n = nums.length;","Type[] name = {...};",[["int[] nums",/int\[\]\s+nums\s*=\s*\{/],["nums.length",/nums\.length/]],["Array size property?",["length","size()","count"],0]],
+["Strings","String methods: length(), toUpperCase(), + joins.","String s = \"hi\";\ns.toUpperCase();","Write String s = \"hi\"; and call s.toUpperCase().","Methods use ().",[["String s",/String\s+s\s*=\s*\"hi\"\s*;/],["toUpperCase()",/s\.toUpperCase\(\)/]],["Is String a primitive?",["Yes","No, a class","Only in Java 8"],1]]],
+"C++":[["Conditionals","if / else if / else, with the condition in parentheses.","if (x > 0) {\n  std::cout << \"pos\";\n} else {\n  std::cout << \"other\";\n}","Write if (x > 0) { ... } else { ... }.","Braces and parentheses.",[["if (x > 0)",/if\s*\(\s*x\s*>\s*0\s*\)/],["else",/else\s*\{/]],["Equality operator?",["=","==","==="],1]],
+["Vectors","std::vector is a resizable list. push_back adds, size() counts.","std::vector<int> v = {1, 2};\nv.push_back(3);","Declare std::vector<int> v and push_back(5).","std::vector<int> v;",[["vector<int> v",/std::vector<int>\s+v/],["push_back(5)",/v\.push_back\(\s*5\s*\)/]],["Which adds to a vector?",["push_back","add","append"],0]],
+["Strings","std::string has size() and + to join.","std::string s = \"hi\";\ns += \"!\";","Write std::string s = \"hi\"; then s += \"!\";","Use +=.",[["std::string s",/std::string\s+s\s*=\s*\"hi\"\s*;/],["s += \"!\"",/s\s*\+=\s*\"!\"/]],["Join strings with...",["+","&","."],0]]],
+Go:[["Conditionals","if has no parentheses; braces are required.","if x > 0 {\n  fmt.Println(\"pos\")\n} else {\n  fmt.Println(\"other\")\n}","Write if x > 0 { ... } else { ... }.","No parentheses.",[["if x > 0 {",/if\s+x\s*>\s*0\s*\{/],["else",/else\s*\{/]],["Does Go need () around conditions?",["Yes","No","Only for else"],1]],
+["Slices","A slice is a resizable list. append returns a new slice.","s := []int{1, 2}\ns = append(s, 3)","Write nums := []int{1, 2} and nums = append(nums, 3).","Reassign the result of append.",[["nums := []int",/nums\s*:=\s*\[\]int\{/],["append",/nums\s*=\s*append\(\s*nums/]],["append returns...",["A new slice","Nothing","An int"],0]],
+["Maps","A map stores key/value pairs.","m := map[string]int{\"a\": 1}\nm[\"b\"] = 2","Write ages := map[string]int{\"Ada\": 30}.","map[KeyType]ValueType{...}",[["map literal",/ages\s*:=\s*map\[string\]int\{/],["Ada: 30",/\"Ada\"\s*:\s*30/]],["Map syntax starts with...",["map[K]V","dict","{}"],0]]],
+Rust:[["Conditionals","if is an expression: no parentheses needed.","if x > 0 {\n  println!(\"pos\");\n} else {\n  println!(\"other\");\n}","Write if x > 0 { ... } else { ... }.","No parentheses.",[["if x > 0",/if\s+x\s*>\s*0\s*\{/],["else",/else\s*\{/]],["Is if an expression in Rust?",["Yes","No"],0]],
+["Vectors","Vec<T> is a growable list; vec![] makes one.","let mut v = vec![1, 2];\nv.push(3);","Write let mut v = vec![1, 2]; and v.push(3);","mut is required to push.",[["let mut v = vec!",/let\s+mut\s+v\s*=\s*vec!\[/],["push(3)",/v\.push\(\s*3\s*\)/]],["Macro that builds a Vec?",["vec!","list!","array!"],0]],
+["Strings","String is owned and growable; &str is a borrowed slice.","let mut s = String::from(\"hi\");\ns.push_str(\"!\");","Write let mut s = String::from(\"hi\"); and s.push_str(\"!\");","String::from and push_str.",[["String::from",/String::from\(\s*\"hi\"\s*\)/],["push_str",/s\.push_str\(\s*\"!\"\s*\)/]],["Growable text type?",["String","&str","char"],0]]],
+Lua:[["Conditionals","if ... then ... elseif ... else ... end.","if x > 0 then\n  print(\"pos\")\nelse\n  print(\"other\")\nend","Write if x > 0 then ... else ... end.","Do not forget end.",[["if x > 0 then",/if\s+x\s*>\s*0\s+then/],["else",/\belse\b/],["end",/\bend\b/]],["Not-equal in Lua?",["!=","~=","<>"],1]],
+["Tables","Tables are Lua's list and dictionary. # gives the length.","local t = {10, 20}\nprint(#t)","Write local t = {10, 20, 30} and print(#t).","# before the name.",[["local t",/local\s+t\s*=\s*\{\s*10\s*,\s*20\s*,\s*30\s*\}/],["#t",/#t/]],["Length operator?",["#","len()","size"],0]],
+["Strings","Join with .. and get length with #.","local s = \"hi\" .. \"!\"","Write local s = \"hi\" .. \"!\" and print(s).","Two dots.",[["concat",/\"hi\"\s*\.\.\s*\"!\"/],["print",/print\(/]],["Join operator?",["+","..","&"],1]]],
+GDScript:[["Conditionals","if / elif / else with colons and indentation.","if hp > 0:\n    print(\"alive\")\nelse:\n    print(\"dead\")","Write if hp > 0: print(\"alive\") with else.","Colons + indentation.",[["if hp > 0:",/if\s+hp\s*>\s*0\s*:/],["else:",/else\s*:/]],["Else-if keyword?",["elif","elseif","else if"],0]],
+["Arrays","Arrays use [] and append().","var a = [1, 2]\na.append(3)","Write var items = [1, 2] and items.append(3).","append().",[["var items",/var\s+items\s*=\s*\[/],["append",/items\.append\(\s*3\s*\)/]],["Array size method?",["size()","length","len"],0]],
+["Signals","Signals let nodes announce events: signal died, then emit_signal(\"died\").","signal died\nemit_signal(\"died\")","Declare signal died and emit it with emit_signal(\"died\").","signal name, then emit_signal.",[["signal died",/signal\s+died/],["emit",/emit_signal\(\s*\"died\"\s*\)/]],["Signals are used for...",["Events","Loops","Types"],0]]],
+Bash:[["Conditionals","if [ ... ]; then ... fi. Spaces inside the brackets matter.","if [ \"$x\" -gt 0 ]; then\n  echo pos\nfi","Write if [ \"$x\" -gt 0 ]; then echo pos; fi.","Spaces inside [ ].",[["if [ ... -gt 0 ]",/if\s+\[\s+\"?\$x\"?\s+-gt\s+0\s+\]/],["then",/\bthen\b/],["fi",/\bfi\b/]],["What closes an if?",["end","fi","done"],1]],
+["Arguments","$1 is the first argument, $# the count.","echo \"Hello $1\"","Echo Hello followed by $1.","echo \"Hello $1\"",[["echo $1",/echo\s+.*\$1/]],["$# holds...",["Arg count","Exit code","PID"],0]],
+["Pipes","| sends one command's output to the next.","ls | wc -l","Pipe echo hello into wc -c.","echo hello | wc -c",[["pipe",/echo\s+hello\s*\|\s*wc\s+-c/]],["Pipe symbol?",["|","&","~"],0]]],
+TypeScript:[["Interfaces","An interface describes the shape of an object.","interface User { name: string; age: number }","Declare interface User { name: string; age: number }.","interface Name { prop: type }",[["interface User",/interface\s+User\s*\{/],["name: string",/name\s*:\s*string/],["age: number",/age\s*:\s*number/]],["Interfaces describe...",["Shapes","Loops","Files"],0]],
+["Arrays","Typed arrays: number[].","const a: number[] = [1, 2];","Write const nums: number[] = [1, 2, 3];","type[] after the colon.",[["nums: number[]",/const\s+nums\s*:\s*number\[\]\s*=\s*\[/]],["Array of strings type?",["string[]","array<string>","[string]"],0]],
+["Union types","A value can be one of several types with |.","let id: string | number;","Write let id: string | number;","Use |.",[["union",/let\s+id\s*:\s*string\s*\|\s*number/]],["| in a type means...",["or","and","not"],0]]],
+PHP:[["Conditionals","if / elseif / else with braces.","if ($x > 0) {\n  echo \"pos\";\n} else {\n  echo \"other\";\n}","Write if ($x > 0) { ... } else { ... }.","$ on variables.",[["if ($x > 0)",/if\s*\(\s*\$x\s*>\s*0\s*\)/],["else",/else\s*\{/]],["PHP's else-if?",["elseif","elif","else if only"],0]],
+["Arrays","Arrays use [] and count().","$a = [1, 2];\ncount($a);","Write $nums = [1, 2, 3]; and echo count($nums);","count($array).",[["$nums",/\$nums\s*=\s*\[/],["count",/count\(\s*\$nums\s*\)/]],["Array size function?",["count()","len()","size()"],0]],
+["Associative arrays","Keys map to values with =>.","$u = [\"name\" => \"Ada\"];","Write $user = [\"name\" => \"Ada\"];","key => value.",[["assoc",/\$user\s*=\s*\[\s*[\"']name[\"']\s*=>\s*[\"']Ada[\"']/]],["Key/value arrow?",["=>","->","::"],0]]],
+SQL:[["INSERT","INSERT INTO adds a row.","INSERT INTO users (name, age) VALUES ('Ada', 30);","Insert name Ada and age 30 into users.","INSERT INTO users (...) VALUES (...);",[["insert",/insert\s+into\s+users\s*\(\s*name\s*,\s*age\s*\)\s*values\s*\(\s*'Ada'\s*,\s*30\s*\)/i]],["Which adds a row?",["INSERT","ADD","PUSH"],0]],
+["COUNT","Aggregates like COUNT(*) summarize rows.","SELECT COUNT(*) FROM users;","Count rows in users.","SELECT COUNT(*) FROM users;",[["count",/select\s+count\(\s*\*\s*\)\s+from\s+users/i]],["COUNT(*) returns...",["Row count","First row","Column names"],0]],
+["JOIN","JOIN combines rows from two tables on a matching column.","SELECT * FROM a JOIN b ON a.id = b.a_id;","Join users and orders on users.id = orders.user_id.","JOIN ... ON ...",[["join",/from\s+users\s+join\s+orders\s+on\s+users\.id\s*=\s*orders\.user_id/i]],["JOIN uses...",["ON","WHERE only","LIMIT"],0]]],
+HTML:[["Forms","form wraps inputs. input has a type and name; button submits.","<form>\n  <input type=\"text\" name=\"q\">\n  <button>Go</button>\n</form>","Write a form with a text input and a button.","<form><input ...><button>..</button></form>",[["form",/<form[^>]*>[\s\S]*<\/form>/i],["text input",/<input[^>]*type\s*=\s*[\"']text[\"']/i],["button",/<button[^>]*>[^<]*<\/button>/i]],["Which tag submits a form?",["<button>","<link>","<span>"],0]],
+["Tables","table > tr > td builds a grid; th is a header cell.","<table>\n  <tr><th>Name</th></tr>\n  <tr><td>Ada</td></tr>\n</table>","Write a table with one th and one td.","table, tr, th, td.",[["table",/<table[^>]*>[\s\S]*<\/table>/i],["th",/<th[^>]*>[^<]+<\/th>/i],["td",/<td[^>]*>[^<]+<\/td>/i]],["Header cell tag?",["<th>","<td>","<head>"],0]],
+["Semantic layout","header, main and footer describe page regions.","<header>..</header>\n<main>..</main>\n<footer>..</footer>","Write header, main and footer tags.","Three tag pairs.",[["header",/<header[^>]*>[\s\S]*<\/header>/i],["main",/<main[^>]*>[\s\S]*<\/main>/i],["footer",/<footer[^>]*>[\s\S]*<\/footer>/i]],["Which tag holds the main content?",["<main>","<body2>","<section1>"],0]]],
+CSS:[["Grid","display: grid with grid-template-columns builds columns.",".g {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n}","Make .g a grid with two equal columns.",".g { display: grid; grid-template-columns: 1fr 1fr; }",[["display: grid",/display\s*:\s*grid/i],["columns",/grid-template-columns\s*:/i]],["fr stands for...",["Fraction of space","Frame","Fixed rem"],0]],
+["Hover & transitions",":hover styles on mouse-over; transition animates changes.","a:hover { color: red; }","Style a:hover with a color and add a transition on a.","a { transition: ... } a:hover { ... }",[["hover",/a:hover\s*\{[^}]*color/i],["transition",/transition\s*:/i]],["Hover is a...",["pseudo-class","tag","property"],0]],
+["Media queries","@media applies rules by screen width.","@media (max-width: 600px) {\n  body { font-size: 14px; }\n}","Write @media (max-width: 600px) that changes body font-size.","@media (...) { ... }",[["media",/@media\s*\(\s*max-width\s*:\s*600px\s*\)\s*\{[^}]*font-size/i]],["Media queries enable...",["Responsive design","Databases","Sounds"],0]]]
+};
+for(const k in X)RAW[k].push(...X[k]);
+const Y={
+Python:[["Dictionaries","A dict maps keys to values with {}.","d = {\"a\": 1}\nd[\"b\"] = 2","Create ages = {\"Ada\": 30} and print ages[\"Ada\"].","d[key] reads a value.",[["dict",/ages\s*=\s*\{\s*[\"']Ada[\"']\s*:\s*30/],["read",/ages\[\s*[\"']Ada[\"']\s*\]/]],["Dict syntax?",["{k: v}","[k, v]","(k: v)"],0]],
+["Classes","A class bundles data and methods. __init__ sets up new objects.","class Dog:\n    def __init__(self, n):\n        self.n = n","Write class Dog with an __init__(self, name) that sets self.name.","self.name = name",[["class Dog",/class\s+Dog\s*:/],["__init__",/def\s+__init__\s*\(\s*self\s*,\s*name\s*\)/],["self.name",/self\.name\s*=\s*name/]],["First method parameter?",["self","this","me"],0]],
+["Error handling","try / except catches errors.","try:\n    int(\"x\")\nexcept ValueError:\n    print(\"bad\")","Wrap int(\"x\") in try and catch ValueError.","try: ... except ValueError:",[["try",/try\s*:/],["except ValueError",/except\s+ValueError/]],["Keyword that catches?",["catch","except","rescue"],1]]],
+Java:[["Classes","A class has fields and methods; new creates an object.","class Dog {\n  String name;\n}\nDog d = new Dog();","Write class Dog { String name; } and Dog d = new Dog();","new Dog()",[["class Dog",/class\s+Dog\s*\{/],["String name",/String\s+name\s*;/],["new Dog()",/new\s+Dog\s*\(\s*\)/]],["new does...",["Creates an object","Imports","Loops"],0]],
+["ArrayList","ArrayList is a resizable list.","ArrayList<String> l = new ArrayList<>();\nl.add(\"a\");","Create ArrayList<String> l and add(\"a\").","import java.util.*;",[["ArrayList",/ArrayList<String>\s+l\s*=\s*new\s+ArrayList<>\s*\(\s*\)/],["add",/l\.add\(\s*\"a\"\s*\)/]],["Add method?",["add","push","append"],0]],
+["Exceptions","try / catch handles errors.","try {\n  int x = 1 / 0;\n} catch (Exception e) {\n  System.out.println(\"err\");\n}","Write a try block with catch (Exception e).","try { } catch (Exception e) { }",[["try",/try\s*\{/],["catch",/catch\s*\(\s*Exception\s+e\s*\)/]],["Base class of exceptions?",["Exception","Error2","Fault"],0]]],
+"C++":[["Classes","class groups data and methods; public: exposes members.","class Dog {\npublic:\n  int age;\n};","Write class Dog with public: int age;","End the class with };",[["class Dog",/class\s+Dog\s*\{/],["public",/public\s*:/],["int age",/int\s+age\s*;/]],["Class ends with...",["};","}","end"],0]],
+["Pointers","A pointer holds an address. & takes it, * reads it.","int x = 5;\nint* p = &x;","Write int x = 5; int* p = &x;","& gives the address.",[["x",/int\s+x\s*=\s*5\s*;/],["pointer",/int\s*\*\s*p\s*=\s*&x\s*;/]],["& means...",["Address of","Square","And only"],0]],
+["Maps","std::map stores key/value pairs.","std::map<std::string,int> m;\nm[\"a\"] = 1;","Write std::map<std::string,int> m; and m[\"a\"] = 1;","Index with [].",[["map",/std::map<\s*std::string\s*,\s*int\s*>\s+m\s*;/],["assign",/m\[\s*\"a\"\s*\]\s*=\s*1/]],["Header for map?",["<map>","<list2>","<dict>"],0]]],
+Go:[["Structs","A struct groups fields.","type P struct {\n  Name string\n}","Write type P struct { Name string }.","type Name struct {...}",[["struct",/type\s+P\s+struct\s*\{[^}]*Name\s+string/]],["Keyword for custom types?",["type","class","struct only"],0]],
+["Errors","Functions return an error as a second value.","v, err := f()\nif err != nil {\n  return\n}","Write if err != nil { ... }.","Compare with nil.",[["err check",/if\s+err\s*!=\s*nil\s*\{/]],["No error is...",["nil","0","false"],0]],
+["Goroutines","go starts a function concurrently.","go work()","Start work() as a goroutine.","Put go before the call.",[["go",/\bgo\s+work\s*\(\s*\)/]],["go keyword starts...",["A goroutine","A loop","A file"],0]]],
+Rust:[["Structs","struct groups fields.","struct P {\n  name: String,\n}","Write struct P { name: String }.","Fields use name: Type,",[["struct",/struct\s+P\s*\{[^}]*name\s*:\s*String/]],["Struct fields separated by...",["Commas","Semicolons","Dots"],0]],
+["Match","match picks a branch by pattern and must cover every case.","match n {\n  1 => \"one\",\n  _ => \"many\",\n}","Write a match on n with a 1 arm and a _ arm.","_ is the catch-all.",[["match",/match\s+n\s*\{/],["1 arm",/1\s*=>/],["_ arm",/_\s*=>/]],["Catch-all pattern?",["_","*","default"],0]],
+["Option","Option<T> is Some(value) or None.","let x: Option<i32> = Some(5);","Write let x: Option<i32> = Some(5);","Some(...) wraps a value.",[["option",/let\s+x\s*:\s*Option<i32>\s*=\s*Some\(\s*5\s*\)/]],["Absent value?",["None","null","nil"],0]]],
+Lua:[["While loops","while ... do ... end repeats while true.","while i < 3 do\n  i = i + 1\nend","Write while i < 3 do i = i + 1 end.","do ... end",[["while",/while\s+i\s*<\s*3\s+do/],["increment",/i\s*=\s*i\s*\+\s*1/],["end",/\bend\b/]],["Lua has i++?",["No","Yes"],0]],
+["Closures","A function can remember variables from where it was made.","function counter()\n  local c = 0\n  return function() c = c + 1 return c end\nend","Write function counter() returning an inner function.","return function() ... end",[["counter",/function\s+counter\s*\(\s*\)/],["inner",/return\s+function\s*\(/]],["A closure remembers...",["Outer variables","Files","Nothing"],0]],
+["OOP with tables","Tables hold both data and functions.","local Dog = {}\nfunction Dog.bark() end","Write local Dog = {} and function Dog.bark() end.","Dot syntax.",[["table",/local\s+Dog\s*=\s*\{\s*\}/],["method",/function\s+Dog\.bark\s*\(/]],["Objects in Lua are...",["Tables","Classes only","Structs"],0]]],
+GDScript:[["Classes","extends sets the base node type.","extends Node2D\nvar speed = 100","Write extends Node2D and var speed = 100.","extends comes first.",[["extends",/extends\s+Node2D/],["speed",/var\s+speed\s*=\s*100/]],["extends does...",["Sets the base class","Imports","Loops"],0]],
+["_ready & _process","_ready runs once; _process runs every frame with delta.","func _ready():\n    pass\nfunc _process(delta):\n    pass","Write func _ready(): and func _process(delta):","Two functions.",[["_ready",/func\s+_ready\s*\(\s*\)\s*:/],["_process",/func\s+_process\s*\(\s*delta\s*\)\s*:/]],["_process runs...",["Every frame","Once","Never"],0]],
+["Dictionaries","Dictionaries use {} and key lookups.","var d = {\"hp\": 10}\nprint(d[\"hp\"])","Write var stats = {\"hp\": 10} and print(stats[\"hp\"]).","d[key]",[["dict",/var\s+stats\s*=\s*\{\s*\"hp\"\s*:\s*10/],["read",/stats\[\s*\"hp\"\s*\]/]],["Dictionary literal?",["{}","[]","()"],0]]],
+Bash:[["While loops","while [ cond ]; do ... done","i=0\nwhile [ $i -lt 3 ]; do\n  i=$((i+1))\ndone","Write a while loop that runs while $i -lt 3.","do ... done",[["while",/while\s+\[\s+\$i\s+-lt\s+3\s+\]/],["do",/\bdo\b/],["done",/\bdone\b/]],["-lt means...",["Less than","Left top","Last time"],0]],
+["Exit codes","$? holds the last command's exit code; 0 means success.","ls\necho $?","Run ls then echo $?","echo $?",[["exit code",/echo\s+\$\?/]],["Success code?",["0","1","-1"],0]],
+["grep","grep finds lines that match text.","grep hello file.txt","Write grep hello file.txt.","grep word file",[["grep",/grep\s+hello\s+file\.txt/]],["grep does...",["Searches text","Deletes","Copies"],0]]],
+TypeScript:[["Generics","Generics let a function work with any type.","function id<T>(x: T): T { return x }","Write function id<T>(x: T): T { return x }.","<T> after the name.",[["generic",/function\s+id\s*<\s*T\s*>\s*\(\s*x\s*:\s*T\s*\)\s*:\s*T/]],["T stands for...",["A type","A value","A loop"],0]],
+["Classes","Classes can type their properties.","class Dog {\n  name: string;\n}","Write class Dog { name: string; }.","property: type;",[["class",/class\s+Dog\s*\{[^}]*name\s*:\s*string/]],["Class keyword?",["class","struct","object"],0]],
+["Enums","enum names a set of constants.","enum Color { Red, Green }","Write enum Color { Red, Green }.","enum Name { A, B }",[["enum",/enum\s+Color\s*\{\s*Red\s*,\s*Green/]],["Enums group...",["Constants","Loops","Files"],0]]],
+PHP:[["foreach","foreach loops over every item of an array.","foreach ($a as $x) {\n  echo $x;\n}","Write foreach ($nums as $n) { echo $n; }","as $item",[["foreach",/foreach\s*\(\s*\$nums\s+as\s+\$n\s*\)/],["echo",/echo\s+\$n/]],["foreach uses...",["as","in","of"],0]],
+["Classes","class with public properties and new.","class Dog {\n  public $name;\n}\n$d = new Dog();","Write class Dog { public $name; } and $d = new Dog();","new Dog()",[["class",/class\s+Dog\s*\{[^}]*public\s+\$name/],["new",/new\s+Dog\s*\(\s*\)/]],["Property access?",["->","."," ::only"],0]],
+["String functions","strlen counts characters; strtoupper converts.","strlen(\"hi\");","Write echo strlen(\"hello\");","strlen(...)",[["strlen",/strlen\s*\(\s*[\"']hello[\"']\s*\)/]],["strlen returns...",["Length","Uppercase","First char"],0]]],
+SQL:[["UPDATE","UPDATE changes existing rows; always add WHERE.","UPDATE users SET age = 31 WHERE name = 'Ada';","Set age to 31 for name Ada.","UPDATE ... SET ... WHERE ...",[["update",/update\s+users\s+set\s+age\s*=\s*31\s+where\s+name\s*=\s*'Ada'/i]],["UPDATE without WHERE changes...",["All rows","One row","None"],0]],
+["DELETE","DELETE FROM removes rows.","DELETE FROM users WHERE id = 1;","Delete the user with id = 1.","DELETE FROM users WHERE ...",[["delete",/delete\s+from\s+users\s+where\s+id\s*=\s*1/i]],["Delete rows with...",["DELETE FROM","DROP ROW","REMOVE"],0]],
+["GROUP BY","GROUP BY groups rows to aggregate each group.","SELECT city, COUNT(*) FROM users GROUP BY city;","Count users per city.","GROUP BY city",[["group",/select\s+city\s*,\s*count\(\s*\*\s*\)\s+from\s+users\s+group\s+by\s+city/i]],["GROUP BY works with...",["Aggregates","Only text","Indexes"],0]]],
+HTML:[["Head & meta","head holds the title and meta tags.","<head>\n  <title>Hi</title>\n  <meta charset=\"utf-8\">\n</head>","Write a head with a title and meta charset.","title + meta",[["head",/<head[^>]*>[\s\S]*<\/head>/i],["title",/<title>[^<]+<\/title>/i],["meta",/<meta[^>]*charset/i]],["Tab text comes from...",["<title>","<h1>","<meta>"],0]],
+["Div & classes","div groups elements; class names them for CSS.","<div class=\"box\">Hi</div>","Write a div with class box and some text.","class=\"...\"",[["div",/<div\s+class\s*=\s*[\"']box[\"'][^>]*>[^<]+<\/div>/i]],["Class attribute?",["class","id only","css"],0]],
+["Media","img, audio and video embed media.","<video src=\"a.mp4\" controls></video>","Write a video tag with src and controls.","<video src=\"..\" controls>",[["video",/<video[^>]*src\s*=[^>]*controls[^>]*>/i]],["Show player buttons with...",["controls","play","show"],0]]],
+CSS:[["Positioning","position: relative/absolute/fixed places elements.",".a {\n  position: absolute;\n  top: 0;\n}","Make .a position: absolute with top: 0.","position + offset",[["position",/\.a\s*\{[^}]*position\s*:\s*absolute/i],["top",/top\s*:\s*0/i]],["Stick to the screen?",["fixed","static","inline"],0]],
+["Variables","Custom properties: --name, used with var().",":root { --c: red; }\nh1 { color: var(--c); }","Define --c on :root and use var(--c).","--c: red;",[["define",/:root\s*\{[^}]*--c\s*:/i],["use",/var\(\s*--c\s*\)/i]],["Custom property starts with...",["--","$","@"],0]],
+["Animations","@keyframes defines steps; animation applies them.","@keyframes s { to { opacity: 0 } }\n.a { animation: s 1s; }","Write @keyframes s and use it in .a.","@keyframes name {...}",[["keyframes",/@keyframes\s+s\s*\{/i],["animation",/\.a\s*\{[^}]*animation\s*:\s*s/i]],["Animation steps live in...",["@keyframes","@media","@import"],0]]]
+};
+for(const k in Y)RAW[k].push(...Y[k]);
+const A=(t,e,x,o,r,Q,O,i)=>[t,e,x,o,o,[[t.toLowerCase(),r]],[Q,O,i||0]];
+const Z={
+Python:[A("While loops","while repeats as long as the condition is true.","while x < 3:\n    x += 1","Write while x < 3: with x += 1 inside.",/while\s+x\s*<\s*3\s*:[\s\S]*x\s*\+=\s*1/,"Which loop checks a condition?",["while","each"]),
+A("Comprehensions","Build a list in one line.","[n*2 for n in nums]","Write sq = [n*n for n in nums].",/sq\s*=\s*\[\s*n\s*\*\s*n\s+for\s+n\s+in\s+nums\s*\]/,"A comprehension builds a...",["list","file"]),
+A("Lambda","lambda is a tiny one-line function.","f = lambda a: a + 1","Write double = lambda n: n * 2.",/double\s*=\s*lambda\s+n\s*:\s*n\s*\*\s*2/,"lambda makes...",["a small function","a class"]),
+A("Sets","A set holds unique values.","s = {1, 2, 2}","Write s = {1, 2, 2, 3}.",/s\s*=\s*\{\s*1\s*,\s*2\s*,\s*2\s*,\s*3\s*\}/,"A set keeps...",["unique items","order"]),
+A("Files","with open() reads files and closes them for you.","with open(\"a.txt\") as f:\n    print(f.read())","Open a.txt with 'with' and print f.read().",/with\s+open\(\s*[\"']a\.txt[\"']\s*\)\s+as\s+f\s*:[\s\S]*f\.read\(\)/,"with ensures the file is...",["closed","deleted"])],
+Java:[A("While loops","while repeats while a condition holds.","while (i < 3) {\n  i++;\n}","Write while (i < 3) { i++; }",/while\s*\(\s*i\s*<\s*3\s*\)\s*\{[\s\S]*i\+\+/,"Loop with a condition?",["while","each"]),
+A("Switch","switch picks a case by value.","switch (d) {\n  case 1: break;\n}","Write switch (d) with case 1: and break;",/switch\s*\(\s*d\s*\)\s*\{[\s\S]*case\s+1\s*:[\s\S]*break\s*;/,"Which stops a case?",["break","stop"]),
+A("Inheritance","extends reuses another class.","class Dog extends Animal {}","Write class Dog extends Animal { }",/class\s+Dog\s+extends\s+Animal\s*\{/,"Keyword to inherit?",["extends","inherits"]),
+A("Interfaces","An interface lists methods a class must have.","interface Speak { void say(); }","Write interface Speak { void say(); }",/interface\s+Speak\s*\{[\s\S]*void\s+say\s*\(\s*\)\s*;/,"A class uses an interface with...",["implements","extends"]),
+A("HashMap","HashMap stores key/value pairs.","HashMap<String,Integer> m = new HashMap<>();\nm.put(\"a\", 1);","Create HashMap<String,Integer> m and put(\"a\", 1).",/HashMap<\s*String\s*,\s*Integer\s*>\s+m\s*=\s*new\s+HashMap<>\s*\(\s*\)[\s\S]*m\.put\(\s*\"a\"\s*,\s*1\s*\)/,"Add to a map with...",["put","add"])],
+"C++":[A("While loops","while repeats while true.","while (i < 3) { i++; }","Write while (i < 3) { i++; }",/while\s*\(\s*i\s*<\s*3\s*\)\s*\{[\s\S]*i\+\+/,"Loop with a condition?",["while","each"]),
+A("Switch","switch chooses by value.","switch (d) {\n  case 1: break;\n}","Write switch (d) with case 1: break;",/switch\s*\(\s*d\s*\)[\s\S]*case\s+1\s*:[\s\S]*break/,"Which ends a case?",["break","end"]),
+A("References","A reference is another name for a variable.","int& r = x;","Write int& r = x;",/int\s*&\s*r\s*=\s*x\s*;/,"& after a type makes a...",["reference","pointer"]),
+A("Const","const stops a value changing.","const int MAX = 10;","Write const int MAX = 10;",/const\s+int\s+MAX\s*=\s*10\s*;/,"const means...",["can't change","global"]),
+A("Include","#include brings in a header.","#include <iostream>","Write #include <iostream>",/#include\s*<iostream>/,"Which brings in a header?",["#include","import"])],
+Go:[A("Switch","switch matches values; no break needed.","switch x {\ncase 1:\n}","Write switch x { case 1: }",/switch\s+x\s*\{[\s\S]*case\s+1\s*:/,"Does Go need break?",["No","Yes"]),
+A("Range","range loops over slices and maps.","for i, v := range nums {}","Write for i, v := range nums { }",/for\s+i\s*,\s*v\s*:=\s*range\s+nums/,"range gives...",["index and value","only value"]),
+A("Methods","A method has a receiver before its name.","func (p P) Hi() {}","Write func (p P) Hi() { }",/func\s*\(\s*p\s+P\s*\)\s*Hi\s*\(\s*\)/,"Receiver goes...",["before the name","after the name"]),
+A("Pointers","& takes an address, * reads it.","p := &x","Write p := &x",/p\s*:=\s*&x/,"& means...",["address of","and"]),
+A("Defer","defer runs a call when the function ends.","defer fmt.Println(\"bye\")","Write defer fmt.Println(\"bye\")",/defer\s+fmt\.Println\(\s*\"bye\"\s*\)/,"defer runs...",["at function end","never"])],
+Rust:[A("While loops","while repeats while true.","while i < 3 { i += 1; }","Write while i < 3 { i += 1; }",/while\s+i\s*<\s*3\s*\{[\s\S]*i\s*\+=\s*1/,"Loop with a condition?",["while","each"]),
+A("Borrowing","& borrows a value without taking it.","let r = &s;","Write let r = &s;",/let\s+r\s*=\s*&s\s*;/,"& creates a...",["borrow","copy"]),
+A("Result","Result is Ok(value) or Err(error).","let r: Result<i32, String> = Ok(1);","Write let r: Result<i32, String> = Ok(1);",/let\s+r\s*:\s*Result<\s*i32\s*,\s*String\s*>\s*=\s*Ok\(\s*1\s*\)/,"Success variant?",["Ok","Some"]),
+A("impl","impl adds methods to a struct.","impl P {\n  fn hi(&self) {}\n}","Write impl P { fn hi(&self) { } }",/impl\s+P\s*\{[\s\S]*fn\s+hi\s*\(\s*&self\s*\)/,"impl blocks add...",["methods","loops"]),
+A("Enums","enum lists the variants of a type.","enum D { N, S }","Write enum D { N, S }",/enum\s+D\s*\{\s*N\s*,\s*S\s*,?\s*\}/,"enum defines...",["variants","loops"])],
+Lua:[A("repeat until","repeat runs at least once.","repeat\n  i = i + 1\nuntil i >= 3","Write repeat i = i + 1 until i >= 3",/repeat[\s\S]*i\s*=\s*i\s*\+\s*1[\s\S]*until\s+i\s*>=\s*3/,"repeat ends with...",["until","end"]),
+A("ipairs","ipairs walks a list in order.","for i, v in ipairs(t) do end","Write for i, v in ipairs(t) do end",/for\s+i\s*,\s*v\s+in\s+ipairs\(\s*t\s*\)\s+do[\s\S]*end/,"ipairs loops...",["arrays","strings"]),
+A("nil","nil means no value.","if x == nil then end","Write if x == nil then end",/if\s+x\s*==\s*nil\s+then[\s\S]*end/,"No value is...",["nil","null"]),
+A("format","string.format fills in values.","string.format(\"%d\", 5)","Write string.format(\"%d\", 5)",/string\.format\(\s*\"%d\"\s*,\s*5\s*\)/,"%d is for...",["integers","text"]),
+A("require","require loads a module.","local m = require(\"m\")","Write local m = require(\"m\")",/local\s+m\s*=\s*require\(\s*[\"']m[\"']\s*\)/,"require loads a...",["module","table"])],
+GDScript:[A("While loops","while repeats while true.","while i < 3:\n    i += 1","Write while i < 3: with i += 1.",/while\s+i\s*<\s*3\s*:[\s\S]*i\s*\+=\s*1/,"Loop with a condition?",["while","each"]),
+A("match","match picks a pattern.","match x:\n    1:\n        print(\"one\")","Write match x: with a 1: branch.",/match\s+x\s*:[\s\S]*1\s*:/,"GDScript's switch?",["match","switch"]),
+A("export","@export shows a variable in the editor.","@export var speed = 100","Write @export var speed = 100",/@export\s+var\s+speed\s*=\s*100/,"@export shows it in...",["the Inspector","the console"]),
+A("const & enum","const never changes; enum names options.","const MAX = 5\nenum {A, B}","Write const MAX = 5",/const\s+MAX\s*=\s*5/,"const values...",["never change","change often"]),
+A("get_node","$Name finds a child node.","$Sprite2D.hide()","Write $Sprite2D.hide()",/\$Sprite2D\.hide\(\s*\)/,"$ finds a...",["child node","variable"])],
+Bash:[A("case","case matches patterns.","case $x in\n  a) echo A;;\nesac","Write case $x in a) echo A;; esac",/case\s+\$x\s+in[\s\S]*a\)[\s\S]*;;[\s\S]*esac/,"case ends with...",["esac","end"]),
+A("Redirect","> writes output to a file.","echo hi > a.txt","Write echo hi > a.txt",/echo\s+hi\s*>\s*a\.txt/,"> sends output to a...",["file","pipe"]),
+A("read","read asks for input.","read name","Write read name",/\bread\s+name\b/,"read gets...",["input","a file"]),
+A("Arrays","Arrays use ( ) and ${a[0]}.","a=(1 2 3)\necho ${a[0]}","Write a=(1 2 3) then echo ${a[0]}",/a\s*=\s*\(\s*1\s+2\s+3\s*\)[\s\S]*echo\s+\$\{a\[0\]\}/,"First index?",["0","1"]),
+A("Substitution","$(...) runs a command inside text.","d=$(date)","Write d=$(date)",/d\s*=\s*\$\(\s*date\s*\)/,"$(cmd) gives...",["its output","its code"])],
+TypeScript:[A("Type alias","type names a type.","type ID = string | number;","Write type ID = string | number;",/type\s+ID\s*=\s*string\s*\|\s*number\s*;/,"type creates a...",["name for a type","variable"]),
+A("Optional","? marks a property optional.","interface U { age?: number }","Write interface U { age?: number }",/interface\s+U\s*\{\s*age\s*\?\s*:\s*number/,"? means...",["optional","required"]),
+A("Tuples","A tuple has fixed types in order.","let t: [string, number];","Write let t: [string, number];",/let\s+t\s*:\s*\[\s*string\s*,\s*number\s*\]/,"Tuples have...",["fixed order","any length"]),
+A("readonly","readonly stops changes.","readonly id: number","Write readonly id: number",/readonly\s+id\s*:\s*number/,"readonly prevents...",["changes","reading"]),
+A("Arrow types","Type arrow functions.","const f = (n: number): number => n * 2;","Write const f = (n: number): number => n * 2;",/const\s+f\s*=\s*\(\s*n\s*:\s*number\s*\)\s*:\s*number\s*=>\s*n\s*\*\s*2/,"=> starts the...",["body","type"])],
+PHP:[A("While loops","while repeats while true.","while ($i < 3) { $i++; }","Write while ($i < 3) { $i++; }",/while\s*\(\s*\$i\s*<\s*3\s*\)[\s\S]*\$i\+\+/,"Loop with a condition?",["while","each"]),
+A("Switch","switch picks a case.","switch ($d) {\n  case 1: break;\n}","Write switch ($d) with case 1: break;",/switch\s*\(\s*\$d\s*\)[\s\S]*case\s+1\s*:[\s\S]*break/,"Ends a case?",["break","stop"]),
+A("include","include loads another file.","include \"a.php\";","Write include \"a.php\";",/include\s*[\"']a\.php[\"']\s*;/,"include loads a...",["file","class"]),
+A("Constants","define makes a constant.","define(\"MAX\", 5);","Write define(\"MAX\", 5);",/define\(\s*[\"']MAX[\"']\s*,\s*5\s*\)\s*;/,"Constants...",["never change","are $vars"]),
+A("Null coalescing","?? gives a default for null.","$n = $x ?? \"none\";","Write $n = $x ?? \"none\";",/\$n\s*=\s*\$x\s*\?\?\s*[\"']none[\"']\s*;/,"?? returns...",["a default","an error"])],
+SQL:[A("LIMIT","LIMIT caps the rows returned.","SELECT * FROM users LIMIT 5;","Select all from users with LIMIT 5.",/select\s+\*\s+from\s+users\s+limit\s+5/i,"LIMIT sets...",["max rows","min rows"]),
+A("LIKE","LIKE matches text patterns; % is a wildcard.","SELECT * FROM users WHERE name LIKE 'A%';","Select users where name LIKE 'A%'.",/from\s+users\s+where\s+name\s+like\s+'A%'/i,"% means...",["any text","one char"]),
+A("DISTINCT","DISTINCT removes duplicates.","SELECT DISTINCT city FROM users;","Select DISTINCT city from users.",/select\s+distinct\s+city\s+from\s+users/i,"DISTINCT removes...",["duplicates","nulls"]),
+A("CREATE TABLE","CREATE TABLE defines columns.","CREATE TABLE t (id INT, name TEXT);","Create table t with id INT and name TEXT.",/create\s+table\s+t\s*\(\s*id\s+int\s*,\s*name\s+text\s*\)/i,"CREATE TABLE makes a...",["table","row"]),
+A("SUM","SUM adds a numeric column.","SELECT SUM(price) FROM orders;","Select SUM(price) from orders.",/select\s+sum\(\s*price\s*\)\s+from\s+orders/i,"SUM returns...",["a total","a count"])],
+HTML:[A("Labels","label connects text to an input by id.","<label for=\"n\">Name</label>\n<input id=\"n\">","Write a label for=\"n\" and input id=\"n\".",/<label[^>]*for\s*=\s*[\"']n[\"'][^>]*>[\s\S]*<input[^>]*id\s*=\s*[\"']n[\"']/i,"label uses...",["for","href"]),
+A("Select","select shows a dropdown of option tags.","<select><option>A</option></select>","Write a select with two options.",/<select[^>]*>\s*<option[^>]*>[^<]+<\/option>\s*<option[^>]*>[^<]+<\/option>/i,"Dropdown tag?",["<select>","<drop>"]),
+A("Nav","nav holds main links.","<nav><a href=\"#\">Home</a></nav>","Write a nav with one link.",/<nav[^>]*>[\s\S]*<a[^>]*href[^>]*>[^<]+<\/a>[\s\S]*<\/nav>/i,"nav is for...",["navigation","footers"]),
+A("Textarea","textarea is a multi-line input.","<textarea rows=\"3\"></textarea>","Write a textarea with rows=\"3\".",/<textarea[^>]*rows\s*=\s*[\"']3[\"'][^>]*><\/textarea>/i,"Multi-line input?",["<textarea>","<input2>"]),
+A("Strong & em","strong is bold; em is emphasis.","<strong>Hi</strong> <em>you</em>","Write a strong and an em tag with text.",/<strong>[^<]+<\/strong>[\s\S]*<em>[^<]+<\/em>/i,"Important text tag?",["<strong>","<big>"])],
+CSS:[A("Fonts","font-family and font-size set text.","p { font-family: Arial; font-size: 18px; }","Style p with font-family and font-size.",/p\s*\{[^}]*font-family[^}]*font-size|p\s*\{[^}]*font-size[^}]*font-family/i,"Size property?",["font-size","text-size"]),
+A("Radius","border-radius rounds corners.",".b { border-radius: 12px; }","Give .b border-radius: 12px.",/\.b\s*\{[^}]*border-radius\s*:\s*12px/i,"Round corners with...",["border-radius","corner"]),
+A("Shadow","box-shadow adds depth.",".b { box-shadow: 0 4px 12px black; }","Give .b a box-shadow.",/\.b\s*\{[^}]*box-shadow\s*:/i,"Depth property?",["box-shadow","shade"]),
+A("z-index","z-index stacks elements.",".a { position: relative; z-index: 5; }","Give .a position: relative and z-index: 5.",/\.a\s*\{[^}]*z-index\s*:\s*5/i,"Higher z-index is...",["on top","behind"]),
+A("Gradients","linear-gradient blends colors.",".g { background: linear-gradient(red, blue); }","Give .g a linear-gradient background.",/\.g\s*\{[^}]*linear-gradient\(/i,"A gradient goes in...",["background","color only"])]
+};
+for(const k in Z)RAW[k].push(...Z[k]);
+
+
+const CM={Python:"# ",Bash:"# ",GDScript:"# ",Lua:"-- ",SQL:"-- "},LX={};
+for(const k in RAW)LX[k]=RAW[k].map(r=>({t:r[0],e:r[1],x:r[2],o:r[3],h:r[4],P:r[5],q:r[6],s:k==="HTML"?"<!-- your code -->\n":k==="CSS"?"/* your code */\n":(CM[k]||"// ")+"your code\n"}));
+let cur=0,lang="JavaScript",cl=LS;
+const lessons=l=>l==="JavaScript"?LS:LX[l];
+const dk=i=>lang==="JavaScript"?String(i):lang+":"+i;
+const cnt=(l,st)=>Object.keys((st||S).done).filter(k=>l==="JavaScript"?!k.includes(":"):k.startsWith(l+":")).length;
+const DET={
+JavaScript:[
+["A variable is a named box that holds a value, such as a number or some text.","const creates a name that can never be reassigned. Use it by default.","let creates a name you can change later, for example a score that goes up.","Text goes inside quotes (\"Paris\"). Numbers do not (10).","Each statement normally ends with a semicolon."],
+["A loop repeats code so you do not have to write it many times.","for (let i = 1; i <= n; i++) has three parts: start (i = 1), condition (i <= n) and step (i++).","Keep a running total in a variable declared before the loop: let total = 0.","Inside the loop add to it with total += i. After the loop, return total."],
+["A function is a reusable block with a name. It takes inputs (parameters) and gives back an output.","return sends the result back to whoever called the function.","The remainder operator % gives what is left after dividing: 7 % 2 is 1, 4 % 2 is 0.","A number is even when n % 2 === 0, and === compares value and type."],
+["An array is an ordered list written in square brackets: [10, 20, 30].","Positions are called indexes and start at 0, so the first item is arr[0].","arr.length is the number of items, so the last index is arr.length - 1.","Read an item with square brackets, for example arr[2]."],
+["A string is text. It can use double or single quotes.","Methods are built-in actions written after a dot, like text.toUpperCase().","Methods return a new string and leave the original unchanged.","The + operator joins strings: \"HI\" + \"!\" gives \"HI!\"."]],
+Python:[
+["No keyword is needed: name = \"Ada\" creates a variable and stores the text.","Text uses quotes, numbers like 30 do not.","print(value) shows a value in the output.","Names are case sensitive: name and Name are different variables."],
+["for repeats a block once for each item in a sequence.","range(5) gives 0, 1, 2, 3, 4. It stops before 5.","The colon after the for line starts the block, and the block must be indented (4 spaces).","The loop variable (i) takes the next value each time around."],
+["def starts a function, followed by the name, the parameters in parentheses and a colon.","The body is indented under the def line.","return sends the result back to the caller.","Calling it looks like double(4), which gives 8."]],
+Java:[
+["Java needs a type for every variable: int for whole numbers, String for text.","Text goes in double quotes, and String starts with a capital S.","Every statement ends with a semicolon.","Pattern: type name = value;"],
+["The for header has three parts separated by semicolons: start, condition, step.","int i = 0 starts at zero, i < 5 keeps going while it is true, i++ adds one each time.","The body goes inside curly braces { }.","System.out.println(x) prints x and moves to a new line."],
+["A method states its return type before its name. int means it returns a whole number.","static lets you call it without creating an object (fine for now).","Parameters need types too: (int n).","return sends the value back. void would mean nothing is returned."]],
+"C++":[
+["C++ needs a type: int for whole numbers.","Text uses std::string from the standard library, with double quotes around the text.","Statements end with a semicolon.","Pattern: type name = value;"],
+["for has a start, a condition and a step separated by semicolons.","std::cout << x prints x. The << arrows push values into the output.","Curly braces hold the loop body.","i++ is shorthand for i = i + 1."],
+["A function starts with its return type: int twice(...) returns a whole number.","Parameters have types too: (int n).","return sends the answer back to the caller.","Do not forget the curly braces around the body."]],
+Go:[
+["name := \"Ada\" declares a variable and picks its type from the value.","var age int = 30 declares it with an explicit type.","Go has no semicolons at the end of lines.","An unused variable is a compile error, so only declare what you use."],
+["Go has one loop keyword, for, and uses it for every style of loop.","for i := 0; i < 5; i++ has a start, a condition and a step.","fmt.Println prints a value. It comes from the fmt package.","The opening curly brace must be on the same line as for."],
+["func declares a function and the name comes next.","Types come after the names: n int.","The return type goes after the parentheses: ) int.","return sends the result back."]],
+Rust:[
+["let creates a variable. In Rust it cannot change unless you add mut.","let mut age = 30; lets you change age later.","Text in double quotes is a string.","Statements end with a semicolon."],
+["for i in 0..5 loops with i = 0, 1, 2, 3, 4. The end value is excluded.","println! has an exclamation mark because it is a macro.","{} inside the quotes is a placeholder filled by the next argument.","The loop body goes in curly braces."],
+["fn declares a function. Parameters need types: n: i32.","-> i32 says the function returns a 32-bit integer.","The last expression without a semicolon is the return value.","So n * 2 with no semicolon returns double n."]],
+Lua:[
+["local creates a variable that exists only in the current block. It is the safe default.","Without local the variable becomes global, which you should avoid.","Text uses quotes and no semicolons are needed.","Lua works out the type by itself."],
+["for i = 0, 4 do counts from 0 to 4 and includes 4.","The body sits between do and end.","print(x) shows a value.","end closes the block. Lua does not use curly braces."],
+["function name(parameters) ... end defines a function.","return sends the result back.","Call it like twice(4).","Tip: Lua tables usually start at index 1, not 0."]],
+GDScript:[
+["GDScript is the scripting language of the Godot game engine, and it looks like Python.","var creates a variable.","A type is optional: var health: int = 100.","Text uses double quotes."],
+["for i in range(5): loops over 0, 1, 2, 3, 4.","The colon starts a block and the block is indented, like Python.","print(x) writes to the Godot output panel.","Use consistent tabs or spaces."],
+["func declares a function. Add parentheses for the parameters.","A colon starts the body and the body is indented.","return sends back a result.","In a game you will write many small functions like take_damage()."]],
+Bash:[
+["A variable is set with name=value, with no spaces around the equals sign.","Read it back with a dollar sign: $name.","echo prints text.","Quote text that contains spaces: name=\"Ada Lovelace\"."],
+["for x in list; do ... done repeats commands for each item.","Items are separated by spaces: 1 2 3 4 5.","do opens the body and done closes it.","Inside the loop, $i holds the current item."],
+["A function is a name followed by () and a block in braces.","Put the commands inside { }.","To call it, just write its name: greet.","Do not write greet() when calling. That would define it again."]],
+TypeScript:[
+["TypeScript is JavaScript plus types, so mistakes are caught before you run the code.","Write the type after a colon: name: string.","Common types are string, number and boolean.","Everything else (const, let) works like JavaScript."],
+["Loops work exactly like in JavaScript.","for (let i = 0; i < 5; i++) has a start, a condition and a step.","console.log prints a value.","TypeScript works out by itself that i is a number."],
+["Parameters get types: (n: number).","The return type goes after the parentheses: ): number.","return sends back the value.","Calling twice(\"a\") would be an error, because \"a\" is not a number."]],
+PHP:[
+["Every PHP variable starts with a dollar sign: $name.","Strings use quotes.","echo prints a value.","Statements end with a semicolon."],
+["for has a start, a condition and a step: $i = 0; $i < 5; $i++.","The loop variable also needs the $ sign.","echo prints each value.","A dot joins strings: \"a\" . \"b\"."],
+["function declares a function and the name comes next.","Parameters start with $ too: $n.","return sends back the result.","Basic PHP does not require a return type."]],
+SQL:[
+["SQL asks questions of a database. A table is like a spreadsheet with columns and rows.","SELECT says which columns you want and FROM says which table.","* means all columns.","A statement ends with a semicolon, and keywords are usually written in capitals."],
+["WHERE filters rows: only the rows that match are returned.","Compare with =, >, <, >= and <=.","It comes after FROM.","Text values need quotes: WHERE name = 'Ada'."],
+["ORDER BY sorts the result.","ASC is low to high (the default) and DESC is high to low.","It goes at the end of the query.","You can sort by any column, even one you do not select."]],
+HTML:[
+["HTML describes the structure of a page with tags.","Most tags come in pairs: <h1> opens and </h1> closes.","h1 is the main heading (h2 to h6 are smaller) and p is a paragraph.","The text goes between the opening and closing tags."],
+["An attribute adds extra information inside the opening tag.","<a href=\"url\"> makes a link, and the text between the tags is what people click.","<img src=\"file\"> shows an image. img has no closing tag.","alt text describes the image for screen readers."],
+["<ul> is an unordered (bulleted) list and <ol> is an ordered (numbered) one.","Each item goes in its own <li> tag.","Close the list with </ul> or </ol>.","Lists can be nested to make sub-items."]],
+CSS:[
+["CSS styles HTML. A rule is a selector plus declarations in braces.","h1 { color: red; } means every h1 gets red text.","Each declaration is property: value; and ends with a semicolon.","color is the text colour and background-color is the background."],
+["A class selector starts with a dot: .card styles every element with class=\"card\".","padding is space inside the box and margin is space outside it.","border draws an outline: width, style, colour.","You can put many declarations in one rule."],
+["display: flex turns a container into a flexible row.","Its children are laid out side by side.","gap sets the space between the children.","justify-content and align-items control the alignment."]]
+};
+LS.push(
+{t:"Conditionals",e:"if / else chooses between paths. Compare with ===.",o:"Write sign(n) returning \"pos\", \"neg\" or \"zero\".",s:"function sign(n){\n  \n}\n",h:"Use if / else if / else with return.",x:"if (n > 0) return \"pos\";",T:[["sign(3)","sign(3)===\"pos\""],["sign(-2)","sign(-2)===\"neg\""],["sign(0)","sign(0)===\"zero\""]],q:["Strict equality operator?",["=","==","==="],2]},
+{t:"Objects",e:"An object stores named properties: {name: \"Ada\"}. Read with dot notation.",o:"Write getName(p) that returns p.name.",s:"function getName(p){\n  \n}\n",h:"return p.name;",x:"const p = {name:\"Ada\", age:30};\np.name; // \"Ada\"",T:[["getName({name:\"Ada\"})","getName({name:\"Ada\"})===\"Ada\""]],q:["Read a property?",["p.name","p->name","p[name]"],0]},
+{t:"Array methods",e:"map, filter and reduce transform arrays without loops.",o:"Write doubleAll(arr) returning each number times 2.",s:"function doubleAll(arr){\n  \n}\n",h:"arr.map(x => x * 2)",x:"[1,2,3].map(x => x*2); // [2,4,6]",T:[["doubleAll([1,2])","doubleAll([1,2]).join()===\"2,4\""]],q:["Which keeps matching items?",["map","filter","push"],1]}
+);
+LS.push(
+{t:"Classes",e:"A class makes objects with data and methods.",o:"Write class Counter with inc() that raises this.n and returns it (n starts at 0).",s:"class Counter{\n  \n}\n",h:"constructor(){this.n=0}; inc(){return ++this.n}",x:"class A{constructor(){this.n=0}}",T:[["inc twice","(()=>{const c=new Counter();c.inc();return c.inc()===2})()"]],q:["Constructor method name?",["init","constructor","new"],1]},
+{t:"Destructuring",e:"Pull values out of arrays and objects in one line.",o:"Write first([a]) style: first(arr) returns the first item using destructuring.",s:"function first(arr){\n  \n}\n",h:"const [a] = arr; return a;",x:"const [a, b] = [1, 2];",T:[["first([7,8])","first([7,8])===7"]],q:["const {x} = obj reads...",["obj.x","obj[x]","x of obj list"],0]},
+{t:"Recursion",e:"A function can call itself; it needs a base case.",o:"Write fact(n) returning n! recursively.",s:"function fact(n){\n  \n}\n",h:"if (n<=1) return 1; return n*fact(n-1);",x:"fact(3) // 6",T:[["fact(5)","fact(5)===120"],["fact(0)","fact(0)===1"]],q:["Every recursion needs a...",["Base case","Loop","Class"],0]}
+);
+LS.push(
+{t:"Template literals",e:"Backticks let you put values inside text with ${}.",o:"Write greet(name) returning `Hi, NAME!` with a template literal.",s:"function greet(name){\n  \n}\n",h:"return `Hi, ${name}!`;",x:"`Hi, ${name}`",T:[["greet(Ada)","greet(\"Ada\")===\"Hi, Ada!\""]],q:["Template literals use...",["backticks","quotes only","slashes"],0]},
+{t:"Ternary",e:"condition ? a : b picks one of two values.",o:"Write label(n) returning \"even\" or \"odd\" with a ternary.",s:"function label(n){\n  \n}\n",h:"return n % 2 === 0 ? \"even\" : \"odd\";",x:"x > 0 ? \"pos\" : \"neg\"",T:[["label(2)","label(2)===\"even\""],["label(3)","label(3)===\"odd\""]],q:["Ternary symbols?",["? :","&& ||","=> ->"],0]},
+{t:"Default parameters",e:"A parameter can have a default value.",o:"Write hello(name = \"friend\") returning \"Hello, \" + name.",s:"function hello(name = \"friend\"){\n  \n}\n",h:"return \"Hello, \" + name;",x:"function f(a = 1){}",T:[["hello()","hello()===\"Hello, friend\""],["hello(Ada)","hello(\"Ada\")===\"Hello, Ada\""]],q:["Default used when...",["arg missing","always","never"],0]}
+);
+for(const k in DET)lessons(k).forEach((l,i)=>l.d=DET[k][i]);
+["const city = \"Paris\";\nlet score = 10;\nscore = score + 5;","let total = 0;\nfor (let i = 1; i <= 3; i++) {\n  total += i;\n}\n// total is 6","function add(a, b) {\n  return a + b;\n}\nadd(2, 3); // 5","const fruits = [\"apple\", \"pear\", \"fig\"];\nfruits[0]; // \"apple\"\nfruits.length; // 3","\"hi\".toUpperCase(); // \"HI\"\n\"a\" + \"b\"; // \"ab\""].forEach((x,i)=>LS[i].x=x);
+function cat(){const q=$("q").value.toLowerCase(),c=$("fc").value,a=$("fs").value,p=$("fd").value;
+const r=L.filter(l=>(!q||l[0].toLowerCase().includes(q))&&(!c||l[1]===c)&&(!a||(a==="run")===(l[0]==="JavaScript"))&&(!p||(cnt(l[0])>0)===(p==="started")));
+$("cat").innerHTML=r.length?r.map(l=>{const js=l[0]==="JavaScript",n=cnt(l[0]),t=lessons(l[0]).length;return `<div class="card" data-l="${l[0]}" role="button" tabindex="0" style="cursor:pointer"><b>${l[0]}</b> <span class="tag ${js?"ok":""}">${js?"Lessons + browser run":"Lessons + pattern check"}</span><p class="m" style="font-size:14px">${l[1]} · ${l[2]} · ${t} lessons</p><p class="m" style="font-size:13px;margin:0">${n?`${n}/${t} done`:"Open lessons →"}</p></div>`}).join(""):"<p class='m'>No languages match.</p>"}
+function menu(){$("ls").innerHTML=cl.map((l,i)=>`<button data-i="${i}" aria-current="${i===cur}">${S.done[dk(i)]?"✓ ":""}${i+1}. ${l.t}</button>`).join("")}
+function load(i){cur=i;const l=cl[i];$("lt").textContent=l.t;$("le").textContent=l.e;$("lo").textContent="Exercise: "+l.o;$("kp").innerHTML=(l.d||[]).map(t=>"<li>"+esc(t)+"</li>").join("");$("exr").hidden=true;$("gb").hidden=false;const x=$("ex");x.hidden=!l.x;$("exl").hidden=!l.x;x.textContent=l.x||"";$("ed").value=l.s;$("ed").dispatchEvent(new Event("input"));$("out").textContent="Output appears here.";
+const [q,o]=l.q;$("qz").innerHTML=`<b>Quiz:</b> ${q}<div class="bar">${o.map((x,k)=>`<button class="btn g" data-a="${k}">${x}</button>`).join("")}</div><p id="qr" class="m"></p>`;menu()}
+function setLang(l,go){lang=l;cl=lessons(l);$("lg").value=l;$("ln").textContent=l==="JavaScript"?"Code runs in your browser":"Pattern-checked, not executed";const n=cl.findIndex((_,i)=>!S.done[dk(i)]);load(n<0?0:n);if(go)$("academy").scrollIntoView({behavior:"smooth"})}
+$("lg").innerHTML=L.map(l=>`<option>${l[0]}</option>`).join("");$("lg").onchange=()=>setLang($("lg").value);
+$("cat").onclick=e=>{const a=e.target.closest("[data-l]");if(a)setLang(a.dataset.l,true)};$("cat").onkeydown=e=>{if(e.key==="Enter"||e.key===" "){const a=e.target.closest("[data-l]");if(a){e.preventDefault();setLang(a.dataset.l,true)}}};
+$("ls").onclick=e=>{const b=e.target.closest("button");if(b)load(+b.dataset.i)};
+$("go").onclick=()=>{$("exr").hidden=false;$("gb").hidden=true;$("exr").scrollIntoView({behavior:"smooth",block:"start"})};
+$("bk").onclick=()=>{$("exr").hidden=true;$("gb").hidden=false;$("lt").scrollIntoView({behavior:"smooth"})};
+$("qz").onclick=e=>{const b=e.target.closest("button");if(!b)return;const ok=+b.dataset.a===cl[cur].q[2],k=dk(cur);$("qr").textContent=ok?(S.quiz[k]?"Correct! (XP already earned)":"Correct! +10 XP"):"Not quite, try again.";if(ok&&!S.quiz[k]){S.quiz[k]=1;award(10)}};
+$("hb").onclick=()=>{$("out").textContent="Hint: "+cl[cur].h};
+$("rs").onclick=()=>{$("ed").value=cl[cur].s;$("ed").dispatchEvent(new Event("input"))};
+$("cp").onclick=()=>{navigator.clipboard&&navigator.clipboard.writeText($("ed").value).then(()=>$("out").textContent="Copied.",()=>{})};
+function fin(r,log){const ok=r.every(x=>x[1]),k=dk(cur);$("out").innerHTML=(log?esc(log)+"\n\n":"")+r.map(x=>`<span class="${x[1]?"pass":"fail"}">${x[1]?"✓":"✗"} ${esc(x[0])}</span>`).join("\n");
+if(ok&&!S.done[k]){S.done[k]=1;award(30);$("out").innerHTML+="\n\n<span class='pass'>Lesson complete! +30 XP</span>"}else if(ok)$("out").innerHTML+="\n\n<span class='pass'>All checks pass (XP already earned).</span>";
+if(lang!=="JavaScript")$("out").innerHTML+="\n\n<span class='m'>Checked by pattern matching. Your code is not executed.</span>"}
+let fr,timer;
+$("run").onclick=()=>{const l=cl[cur];if(lang!=="JavaScript"){const code=$("ed").value;fin(l.P.map(([d,rx])=>[d,rx.test(code)]),"");return}
+if(fr)fr.remove();clearTimeout(timer);$("out").textContent="Running…";
+fr=document.createElement("iframe");fr.setAttribute("sandbox","allow-scripts");fr.hidden=true;
+const code=$("ed").value.replace(/<\/script/gi,"<\\/script");
+fr.srcdoc=`<script>window.__l=[];console.log=(...a)=>parent.postMessage({t:"log",v:a.map(String).join(" ")},"*");window.onerror=m=>{parent.postMessage({t:"err",v:String(m)},"*")}<\/script><script>${code}<\/script><script>const T=${JSON.stringify(l.T)};parent.postMessage({t:"done",r:T.map(([d,x])=>[d,(()=>{try{return !!eval(x)}catch(e){return false}})()])},"*")<\/script>`;
+let log=[];const fi=fr;
+window.onmessage=e=>{if(e.source!==fi.contentWindow)return;const m=e.data;if(m.t==="log")log.push(m.v);else if(m.t==="err")log.push("Error: "+m.v);else if(m.t==="done"){clearTimeout(timer);fin(m.r,log.join("\n"))}};
+document.body.appendChild(fr);timer=setTimeout(()=>{fi.remove();$("out").textContent="Stopped: execution exceeded 3 seconds."},3000)};
+const esc=s=>s.replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+function cmp(){const d=CMP[$("ct").value];$("cg").innerHTML=Object.keys(d).map(k=>`<div class="card"><b>${k}</b><pre style="margin-top:8px">${esc(d[k])}</pre></div>`).join("")}
+$("ct").onchange=cmp;["q","fc","fs","fd"].forEach(i=>$(i).addEventListener("input",cat));
+$("rp").onclick=()=>{S={xp:0,done:{},quiz:{},last:"",streak:0,proj:{},ach:{},dc:""};save();dash();load(0)};
+$("th").onclick=()=>{const r=document.documentElement;r.dataset.theme=r.dataset.theme==="light"?"dark":"light"};
+const io=new IntersectionObserver(es=>es.forEach(e=>e.isIntersecting&&e.target.classList.add("on")),{threshold:.1});document.querySelectorAll(".rv").forEach(x=>io.observe(x));
+setTimeout(()=>{$("intro").style.opacity=0;setTimeout(()=>$("intro").remove(),700)},1100);
+(function(){const cv=$("cv"),g=cv.getContext("2d");let W,H,P=[],mx=-999,my=-999,D=Math.min(devicePixelRatio||1,2);
+const rm=matchMedia("(prefers-reduced-motion: reduce)").matches;
+function size(){W=innerWidth;H=innerHeight;cv.width=W*D;cv.height=H*D;g.setTransform(D,0,0,D,0,0);const n=Math.min(90,Math.round(W*H/16000));P=Array.from({length:n},()=>({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.35,vy:(Math.random()-.5)*.35,r:Math.random()*1.4+.6}))}
+function col(){const l=document.documentElement.dataset.theme==="light";return l?"90,70,200":"150,170,255"}
+function draw(){g.clearRect(0,0,W,H);const c=col(),L=125;
+for(const p of P){if(!rm){p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;const dx=p.x-mx,dy=p.y-my,d=Math.hypot(dx,dy);if(d<140&&d>0){p.x+=dx/d*.6;p.y+=dy/d*.6}}
+g.beginPath();g.arc(p.x,p.y,p.r,0,6.283);g.fillStyle=`rgba(${c},.7)`;g.fill()}
+for(let i=0;i<P.length;i++)for(let j=i+1;j<P.length;j++){const a=P[i],b=P[j],d=Math.hypot(a.x-b.x,a.y-b.y);if(d<L){g.strokeStyle=`rgba(${c},${.16*(1-d/L)})`;g.lineWidth=1;g.beginPath();g.moveTo(a.x,a.y);g.lineTo(b.x,b.y);g.stroke()}}
+if(!rm)requestAnimationFrame(draw)}
+addEventListener("resize",()=>{size();if(rm)draw()});addEventListener("pointermove",e=>{mx=e.clientX;my=e.clientY});addEventListener("pointerleave",()=>{mx=my=-999});
+size();draw()})();
+(function(){const ed=$("ed"),hl=$("hl"),gn=$("gn"),st=$("st");let off=false;
+const rx=/([/][/].*$)|("[^"\n]*"|'[^'\n]*'|`[^`]*`)|\b(const|let|var|function|return|if|else|for|while|of|in|new|true|false|null|undefined|class)\b|\b(\d+)\b|\b([A-Za-z_]\w*)(?=\()/gm;
+function pos(){const v=ed.value.slice(0,ed.selectionStart).split("\n");st.textContent="Ln "+v.length+", Col "+(v[v.length-1].length+1)+" · Tab indents · Esc then Tab leaves editor · Ctrl+Enter runs"}
+function ref(){hl.innerHTML=(lang==="JavaScript"?esc(ed.value).replace(rx,(m,a,b,c,d)=>`<span class="${a?"cm":b?"s2":c?"k":d?"nm":"f"}">${m}</span>`):esc(ed.value))+"\n";const n=ed.value.split("\n").length;gn.textContent=Array.from({length:n},(_,i)=>i+1).join("\n");pos()}
+ed.addEventListener("input",ref);["keyup","click","focus"].forEach(t=>ed.addEventListener(t,pos));
+ed.addEventListener("scroll",()=>{hl.scrollTop=ed.scrollTop;hl.scrollLeft=ed.scrollLeft;gn.scrollTop=ed.scrollTop});
+ed.addEventListener("blur",()=>{off=false});
+const ins=t=>{ed.setRangeText(t,ed.selectionStart,ed.selectionEnd,"end");ed.dispatchEvent(new Event("input"))};
+const pr={"(":")","[":"]","{":"}",'"':'"',"'":"'","`":"`"};
+ed.addEventListener("keydown",e=>{const s=ed.selectionStart,v=ed.value;
+if(e.key==="Escape"){off=true;return}
+if((e.ctrlKey||e.metaKey)&&e.key==="Enter"){e.preventDefault();$("run").click();return}
+if(e.key==="Tab"&&!off&&!e.shiftKey){e.preventDefault();ins("  ");return}
+if(e.key==="Enter"){e.preventDefault();const ln=v.slice(v.lastIndexOf("\n",s-1)+1,s),ind=ln.match(/^\s*/)[0];ins("\n"+ind+(/[{(\[]$/.test(ln.trim())?"  ":""));return}
+if(ed.selectionStart!==ed.selectionEnd)return;
+if(")]}\"'`".includes(e.key)&&e.key.length===1&&v[s]===e.key&&!"([{".includes(e.key)){e.preventDefault();ed.selectionStart=ed.selectionEnd=s+1;return}
+if(pr[e.key]){e.preventDefault();ins(e.key+pr[e.key]);ed.selectionStart=ed.selectionEnd=s+1}});
+})();
+(function(){if(!matchMedia("(hover:hover) and (pointer:fine)").matches||matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+const gl=$("gl"),rg=$("rg");let x=innerWidth/2,y=innerHeight/2,gx=x,gy=y,rx=x,ry=y,on=false;
+function tick(){gx+=(x-gx)*.12;gy+=(y-gy)*.12;rx+=(x-rx)*.25;ry+=(y-ry)*.25;gl.style.transform=`translate(${gx-250}px,${gy-250}px)`;rg.style.transform=`translate(${rx-14}px,${ry-14}px)`;if(on)requestAnimationFrame(tick)}
+addEventListener("pointermove",e=>{x=e.clientX;y=e.clientY;if(!on){on=true;gx=rx=x;gy=ry=y;gl.style.opacity=1;rg.style.opacity=1;tick()}
+const t=e.target.closest?e.target:null,c=t&&t.closest(".card");if(c){const r=c.getBoundingClientRect();c.style.setProperty("--mx",x-r.left+"px");c.style.setProperty("--my",y-r.top+"px")}
+rg.classList.toggle("hv",!!(t&&t.closest("a,button,summary,select,input")))});
+document.documentElement.addEventListener("mouseleave",()=>{on=false;gl.style.opacity=0;rg.style.opacity=0});
+})();
+function toast(t){const e=$("ts");e.textContent=t;e.classList.add("on");clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove("on"),1800)}
+$("nx").onclick=()=>load(Math.min(cur+1,cl.length-1));
+addEventListener("scroll",()=>{const h=document.documentElement;$("pg").style.width=(scrollY/Math.max(1,h.scrollHeight-innerHeight)*100)+"%"},{passive:true});
+const nl=[...document.querySelectorAll('nav a[href^="#"]')];const so=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)nl.forEach(a=>a.classList.toggle("act",a.getAttribute("href")==="#"+e.target.id))}),{rootMargin:"-40% 0px -55% 0px"});["languages","academy","compare","projects","dashboard","faq"].forEach(id=>so.observe($(id)));
+if(matchMedia("(hover:hover) and (pointer:fine)").matches&&!matchMedia("(prefers-reduced-motion: reduce)").matches)document.querySelectorAll(".btn").forEach(b=>{b.addEventListener("pointermove",e=>{const r=b.getBoundingClientRect();b.style.transform=`translate(${(e.clientX-r.left-r.width/2)*.2}px,${(e.clientY-r.top-r.height/2)*.3}px)`});b.addEventListener("pointerleave",()=>{b.style.transform=""})});
+function burst(){if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;const c=$("cf"),g=c.getContext("2d");c.width=innerWidth;c.height=innerHeight;const cl=["#8B5CF6","#22D3EE","#43E7A1","#F8FAFC"];const P=Array.from({length:90},()=>({x:innerWidth/2,y:innerHeight*.6,vx:(Math.random()-.5)*14,vy:-Math.random()*14-4,r:Math.random()*5+3,c:cl[Math.random()*4|0],a:Math.random()*6,va:(Math.random()-.5)*.4}));let f=0;(function s(){g.clearRect(0,0,c.width,c.height);P.forEach(p=>{p.vy+=.35;p.x+=p.vx;p.y+=p.vy;p.a+=p.va;g.save();g.translate(p.x,p.y);g.rotate(p.a);g.fillStyle=p.c;g.globalAlpha=Math.max(0,1-f/90);g.fillRect(-p.r,-p.r/2,p.r*2,p.r);g.restore()});if(++f<90)requestAnimationFrame(s);else g.clearRect(0,0,c.width,c.height)})()}
+if(matchMedia("(hover:hover) and (pointer:fine)").matches&&!matchMedia("(prefers-reduced-motion: reduce)").matches){document.addEventListener("pointermove",e=>{const c=e.target.closest&&e.target.closest(".card");if(!c||c.id==="qz")return;const r=c.getBoundingClientRect(),px=(e.clientX-r.left)/r.width-.5,py=(e.clientY-r.top)/r.height-.5;c.style.transform=`perspective(800px) rotateX(${-py*6}deg) rotateY(${px*6}deg)`});document.addEventListener("pointerout",e=>{const c=e.target.closest&&e.target.closest(".card");if(c&&!c.contains(e.relatedTarget))c.style.transform=""})}
+const PJ=[{t:"Calculator",d:"Beginner",o:"Build a calculator that adds, subtracts, multiplies and divides.",sk:"Variables, functions, conditions",c:["Write add, sub, mul and div functions","Handle division by zero","Add a function that takes an operator","Test it with five different inputs"]},{t:"To-do list",d:"Beginner",o:"Manage a list of tasks stored in an array.",sk:"Arrays, loops, functions",c:["Create an array of tasks","Write addTask and removeTask","Print the list with a loop","Mark a task as done"]},{t:"Quiz app",d:"Intermediate",o:"Ask questions, count the score and show a result.",sk:"Arrays, loops, conditions",c:["Store the questions in an array","Loop through them and check answers","Keep a running score","Show a final message based on the score"]}];
+const AC=[["First steps","Complete 1 lesson",s=>Object.keys(s.done).length>=1],["Quiz whiz","Pass 3 lesson quizzes",s=>Object.keys(s.quiz).length>=3],["Halfway there","Complete 3 lessons",s=>Object.keys(s.done).length>=3],["Graduate","Complete every lesson of one language",s=>L.some(l=>cnt(l[0],s)>=lessons(l[0]).length)],["On a roll","Reach a 3-day streak",s=>s.streak>=3],["Level 3","Earn 200 XP",s=>s.xp>=200],["Builder","Finish a project checklist",s=>Object.keys(s.proj).some(k=>k[0]==="x")]];
+const DQ=[["What does 2 + \"2\" give in JavaScript?",["4","\"22\"","Error"],1],["Which loop always runs at least once?",["for","while","do...while"],2],["What does typeof [] return?",["array","object","list"],1],["How do you get the size of an array arr?",["arr.size","arr.length","len(arr)"],1],["Which keyword declares a constant?",["let","var","const"],2],["What does === compare?",["Value only","Value and type","Reference only"],1],["Which method adds an item to the end of an array?",["push","add","append"],0]];
+const dq=()=>DQ[Math.floor(Date.now()/864e5)%DQ.length];
+function pj(){$("pj").innerHTML=PJ.map((p,i)=>{const c=S.proj[i]||[],n=p.c.filter((_,k)=>c[k]).length;return `<div class="card"><b>${p.t}</b> <span class="tag">${p.d}</span><p class="m" style="font-size:14px">${p.o}</p><p style="font-size:13px"><span class="m">Skills:</span> ${p.sk}</p>${p.c.map((x,k)=>`<label style="display:flex;gap:8px;font-size:14px;padding:3px 0;cursor:pointer"><input type="checkbox" data-p="${i}" data-k="${k}" ${c[k]?"checked":""}> ${x}</label>`).join("")}<div class="xp" style="margin-top:10px"><i style="width:${n/p.c.length*100}%"></i></div><p class="m" style="font-size:12px;margin:6px 0 0">${n}/${p.c.length} done${n===p.c.length?" · complete":""}</p></div>`}).join("")}
+$("pj").onchange=e=>{const t=e.target;if(!t.dataset.p)return;const i=+t.dataset.p,k=+t.dataset.k;S.proj[i]=S.proj[i]||[];S.proj[i][k]=t.checked;save();if(PJ[i].c.every((_,j)=>S.proj[i][j])&&!S.proj["x"+i]){S.proj["x"+i]=1;award(50)}else pj();const f=document.querySelector(`[data-p="${i}"][data-k="${k}"]`);f&&f.focus()};
+function ac(){let nw=false;$("ac").innerHTML=AC.map(([n,d,f])=>{const u=f(S);if(u&&!S.ach[n]){S.ach[n]=1;nw=true;toast("Achievement unlocked: "+n)}return `<div class="card" style="${u?"":"opacity:.55"}"><b>${n}</b> <span class="tag ${u?"ok":""}">${u?"Unlocked":"Locked"}</span><p class="m" style="font-size:14px;margin:6px 0 0">${d}</p></div>`}).join("");if(nw)save()}
+function dc(){const [q,o]=dq(),d=S.dc===day();$("dc").innerHTML=`<b>Daily challenge</b> <span class="tag ${d?"ok":""}">${d?"Completed today":"+15 XP"}</span><p>${esc(q)}</p><div class="bar">${o.map((x,k)=>`<button class="btn g" data-a="${k}" ${d?"disabled":""}>${esc(x)}</button>`).join("")}</div><p class="m" id="dr" style="font-size:14px;margin:8px 0 0"></p>`}
+$("dc").onclick=e=>{const b=e.target.closest("button[data-a]");if(!b||b.disabled)return;if(+b.dataset.a===dq()[2]){S.dc=day();award(15)}else $("dr").textContent="Not quite, try again."};
+(function(){const box=$('c3');if(!box)return;let started=false;
+function txt(g,s,x,y,px,col,al,st){g.fillStyle=col;g.font=(st||'800')+' '+px+'px Arial,sans-serif';g.textAlign=al||'center';g.textBaseline='middle';g.fillText(s,x,y)}
+function init(){if(started)return;started=true;
+if(!window.THREE){box.innerHTML='<p class="m" style="padding:20px">The 3D library could not load.</p>';return}
+let R;try{R=new THREE.WebGLRenderer({antialias:true,alpha:true})}catch(e){box.innerHTML='<p class="m" style="padding:20px">WebGL is not available in this browser.</p>';return}
+const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
+R.setPixelRatio(Math.min(devicePixelRatio,2));R.outputEncoding=THREE.sRGBEncoding;R.toneMapping=THREE.ACESFilmicToneMapping;R.toneMappingExposure=1.1;
+box.appendChild(R.domElement);const el=R.domElement;el.style.cssText='width:100%;height:100%;display:block;touch-action:pan-y;cursor:grab';
+const sc=new THREE.Scene(),cam=new THREE.PerspectiveCamera(45,1,.1,100);cam.position.set(0,0,12.5);
+const es=new THREE.Scene();es.add(new THREE.Mesh(new THREE.BoxGeometry(30,30,30),new THREE.MeshBasicMaterial({color:0x12142a,side:THREE.BackSide})));
+function lamp(c,x,y,z,w,h){const m=new THREE.Mesh(new THREE.PlaneGeometry(w,h),new THREE.MeshBasicMaterial({color:c,side:THREE.DoubleSide}));m.material.color.multiplyScalar(4);m.position.set(x,y,z);m.lookAt(0,0,0);es.add(m)}
+lamp(0xffffff,0,12,6,14,4);lamp(0x22D3EE,-12,2,4,5,10);lamp(0x8B5CF6,12,-2,6,5,10);lamp(0xffffff,0,-10,8,10,3);
+sc.environment=new THREE.PMREMGenerator(R).fromScene(es,.04).texture;
+sc.add(new THREE.AmbientLight(0xffffff,.25));const pl=new THREE.PointLight(0x8B5CF6,1.6,40);pl.position.set(-6,4,6);sc.add(pl);const p2=new THREE.PointLight(0x22D3EE,1.6,40);p2.position.set(6,-3,5);sc.add(p2);
+const G=new THREE.Group();sc.add(G);
+const core=new THREE.Mesh(new THREE.IcosahedronGeometry(1.7,1),new THREE.MeshPhysicalMaterial({color:0x4b2fb0,metalness:.9,roughness:.18,clearcoat:1,clearcoatRoughness:.1,flatShading:true}));G.add(core);
+const wf=new THREE.Mesh(new THREE.IcosahedronGeometry(2.1,1),new THREE.MeshBasicMaterial({color:0x22D3EE,wireframe:true,transparent:true,opacity:.3}));G.add(wf);
+[3.7,5].forEach((r,i)=>{const t=new THREE.Mesh(new THREE.TorusGeometry(r,.012,8,120),new THREE.MeshBasicMaterial({color:i?0x8B5CF6:0x22D3EE,transparent:true,opacity:.5}));t.rotation.x=Math.PI/2+(i?.35:-.25);G.add(t)});
+const names=L.slice(0,10).map(l=>l[0]),cubes=[],an=R.capabilities.getMaxAnisotropy();
+const K=1.5/320,D=.3,Z=-D/2,P=(x,y)=>new THREE.Vector2((x-256)*K,-(y-235)*K);
+const mat=(c,m)=>new THREE.MeshPhysicalMaterial({color:c,metalness:m==null?.25:m,roughness:.3,clearcoat:1,clearcoatRoughness:.15});
+const shp=pts=>{const s=new THREE.Shape();pts.forEach((p,i)=>{const v=P(p[0],p[1]);i?s.lineTo(v.x,v.y):s.moveTo(v.x,v.y)});s.closePath();return s};
+const rrs=(x,y,w,h,r)=>{const s=new THREE.Shape(),a=P(x,y),b=P(x+w,y+h),q=r*K,x0=a.x,x1=b.x,y0=b.y,y1=a.y;s.moveTo(x0+q,y0);s.lineTo(x1-q,y0);s.quadraticCurveTo(x1,y0,x1,y0+q);s.lineTo(x1,y1-q);s.quadraticCurveTo(x1,y1,x1-q,y1);s.lineTo(x0+q,y1);s.quadraticCurveTo(x0,y1,x0,y1-q);s.lineTo(x0,y0+q);s.quadraticCurveTo(x0,y0,x0+q,y0);return s};
+const ell=(cx,cy,rx,ry)=>{const s=new THREE.Shape(),c=P(cx,cy);s.absellipse(c.x,c.y,rx*K,ry*K,0,6.2832,false,0);return s};
+const ex=(s,c,d,z,m)=>{const g=new THREE.ExtrudeGeometry(s,{depth:d,bevelEnabled:true,bevelThickness:.035,bevelSize:.035,bevelSegments:3,curveSegments:32});g.translate(0,0,z);return new THREE.Mesh(g,mat(c,m))};
+const tex=fn=>{const c=document.createElement('canvas');c.width=c.height=512;fn(c.getContext('2d'));const t=new THREE.CanvasTexture(c);t.encoding=THREE.sRGBEncoding;t.anisotropy=an;return t};
+const decal=(fn,fc,bc,z,n)=>{const g=new THREE.Group(),tf=tex(q=>fn(q,fc)),tb=tex(q=>fn(q,bc)),pg=new THREE.PlaneGeometry(512*K,512*K);
+for(let i=0;i<n;i++){const m=new THREE.Mesh(pg,new THREE.MeshBasicMaterial({map:i===n-1?tf:tb,transparent:true,alphaTest:.05}));m.position.set(0,-21*K,z+i*.022);g.add(m)}return g};
+const sph=(x,y,c)=>{const m=new THREE.Mesh(new THREE.SphereGeometry(.05,20,16),mat(c,.1)),v=P(x,y);m.position.set(v.x,v.y,.2);return m};
+const half=(c,z)=>ex(shp([[256,70],[402,70],[372,380],[256,430]]),c,.06,z);
+const shield=(a,b,ch,fc,bc)=>{const g=new THREE.Group(),f=new THREE.Group();g.add(ex(shp([[110,70],[402,70],[372,380],[256,430],[140,380]]),a,D,Z));g.add(half(b,.15),half(b,-.21));f.add(decal((q,c)=>txt(q,ch,256,245,230,c),fc,bc,.26,6));return[g,f]};
+const MK={
+JavaScript(){const b=new THREE.Group(),f=new THREE.Group();b.add(ex(rrs(96,70,320,320,6),0xF7DF1E,D,Z));f.add(decal((q,c)=>txt(q,'JS',404,340,120,c,'right'),'#111','#8a7a00',.185,6));return[b,f]},
+TypeScript(){const b=new THREE.Group(),f=new THREE.Group();b.add(ex(rrs(96,70,320,320,18),0x3178C6,D,Z));f.add(decal((q,c)=>txt(q,'TS',404,340,120,c,'right'),'#fff','#16355c',.185,6));return[b,f]},
+HTML(){return shield(0xE44D26,0xF16529,'5','#fff','#7a2a12')},
+CSS(){return shield(0x1572B6,0x33A9DC,'3','#fff','#0a3a60')},
+PHP(){const b=new THREE.Group(),f=new THREE.Group();b.add(ex(ell(256,235,190,112),0x777BB4,D,Z));f.add(decal((q,c)=>txt(q,'php',256,238,130,c,'center','italic 800'),'#111','#3a3c5c',.185,6));return[b,f]},
+SQL(){const b=new THREE.Group(),w=.59;b.add(new THREE.Mesh(new THREE.CylinderGeometry(w,w,1.03,48),mat(0x2f7fc1,.2)));
+const top=new THREE.Mesh(new THREE.CylinderGeometry(w,w,.03,48),mat(0x6cc0ff,.1));top.position.y=.52;b.add(top);
+[.17,-.17].forEach(y=>{const t=new THREE.Mesh(new THREE.TorusGeometry(w+.005,.03,12,64),mat(0xcfeaff,.1));t.rotation.x=Math.PI/2;t.position.y=y;b.add(t)});b.rotation.x=.35;return[b,null]},
+Python(){const b=new THREE.Group(),k=1.6/114,Q=(x,y)=>new THREE.Vector2((x-57)*k,-(y-57)*k);
+const rp=(pts,r)=>{const s=new THREE.Shape(),n=pts.length,V=pts.map(q=>Q(q[0],q[1]));
+for(let i=0;i<n;i++){const pv=V[(i+n-1)%n],c=V[i],nx=V[(i+1)%n],rr=Math.min(r*k,c.distanceTo(pv)/2,c.distanceTo(nx)/2);
+const a=c.clone().sub(pv).setLength(c.distanceTo(pv)-rr).add(pv),z=nx.clone().sub(c).setLength(rr).add(c);
+i?s.lineTo(a.x,a.y):s.moveTo(a.x,a.y);s.quadraticCurveTo(c.x,c.y,z.x,z.y)}s.closePath();return s};
+const blue=[[28.7,0],[69,0],[82.4,13],[82.4,40.5],[69,54],[42.2,54],[25.4,70.7],[25.4,83],[2,83],[1.9,42],[18.6,28.7],[55.5,28.7],[55.5,25.3],[28.7,25.3]];
+const yel=blue.map(q=>[113.5-q[0],114-q[1]]);
+b.add(ex(rp(blue,13),0x3776AB,D,Z),ex(rp(yel,13),0xFFD43B,D,Z));
+const eye=(x,y,z)=>{const m=new THREE.Mesh(new THREE.SphereGeometry(5.2*k,24,18),mat(0xffffff,.05)),v=Q(x,y);m.position.set(v.x,v.y,z);return m};
+[.18,-.18].forEach(z=>{b.add(eye(40.4,13.3,z),eye(73.1,100.7,z))});return[b,null]},
+Java(){const b=new THREE.Group();b.add(ex(shp([[140,240],[330,240],[305,345],[165,345]]),0xE76F00,D,Z));
+const h=new THREE.Mesh(new THREE.TorusGeometry(40*K,9*K,12,32,Math.PI),mat(0xE76F00)),hp=P(335,285);h.position.set(hp.x,hp.y,0);h.rotation.z=-Math.PI/2;b.add(h);
+b.add(ex(rrs(120,380,230,24,12),0x5382A1,D,Z));
+[0,64].forEach(d=>{const pts=[[205,215],[180,170],[215,140],[205,95]].map(p=>{const v=P(p[0]+d,p[1]);return new THREE.Vector3(v.x,v.y,0)});b.add(new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts),32,8*K,10,false),mat(0x5382A1)))});return[b,null]},
+'C++'(){const b=new THREE.Group(),f=new THREE.Group(),pts=[];for(let k=0;k<6;k++){const a=(30+60*k)*Math.PI/180;pts.push([256+180*Math.cos(a),235+180*Math.sin(a)])}
+b.add(ex(shp(pts),0x00599C,D,Z));f.add(decal((q,c)=>txt(q,'C++',256,240,150,c),'#fff','#06284a',.185,6));return[b,f]},
+Go(){const b=new THREE.Group(),f=new THREE.Group();[0,1,2].forEach(i=>b.add(ex(rrs(40+i*10,190+i*45,100-i*10,16,6),0x00ADD8,.2,-.1)));
+f.add(decal((q,c)=>txt(q,'GO',300,235,200,c,'center','italic 800'),'#00ADD8','#007a99',-.11,10));return[b,f]}};
+names.forEach((n,i)=>{const [b,f]=MK[n](),spin=new THREE.Group(),w=new THREE.Group();spin.add(b);
+if(f){spin.add(f);const k=f.clone();k.rotation.y=Math.PI;spin.add(k)}
+spin.scale.setScalar(.85);w.add(spin);
+const lc=document.createElement('canvas');lc.width=256;lc.height=64;txt(lc.getContext('2d'),n,128,32,30,'#b8c0d8','center','600');
+const lt=new THREE.CanvasTexture(lc);lt.encoding=THREE.sRGBEncoding;const lbl=new THREE.Sprite(new THREE.SpriteMaterial({map:lt,transparent:true,depthWrite:false}));lbl.scale.set(1.2,.3,1);lbl.position.y=-1.15;w.add(lbl);
+const a=i/names.length*6.283,r=i%2?5:3.7,y=(i%3-1)*.9;w.userData={n,spin};w.position.set(Math.cos(a)*r,y,Math.sin(a)*r);G.add(w);cubes.push(w)});
+const sp=new Float32Array(600);for(let i=0;i<600;i++)sp[i]=(Math.random()-.5)*40;const pg=new THREE.BufferGeometry();pg.setAttribute('position',new THREE.BufferAttribute(sp,3));sc.add(new THREE.Points(pg,new THREE.PointsMaterial({size:.06,color:0x9aa8ff})));
+function draw(){R.render(sc,cam)}
+function size(){const w=box.clientWidth,h=box.clientHeight;if(!w||!h)return;R.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix();draw()}
+let vx=0,vy=0,drag=false,lx=0,ly=0,mv=0,hov=null,vis=true;
+const ray=new THREE.Raycaster(),pt=new THREE.Vector2(),one=new THREE.Vector3(1,1,1),big=new THREE.Vector3(1.25,1.25,1.25);
+function pick(e){const b=el.getBoundingClientRect();pt.set((e.clientX-b.left)/b.width*2-1,-((e.clientY-b.top)/b.height)*2+1);ray.setFromCamera(pt,cam);const h=ray.intersectObjects(cubes,true).find(x=>!x.object.isSprite);if(!h)return null;let o=h.object;while(o&&!(o.userData&&o.userData.n))o=o.parent;return o||null}
+el.addEventListener('pointerdown',e=>{drag=true;lx=e.clientX;ly=e.clientY;mv=0;el.setPointerCapture(e.pointerId);el.style.cursor='grabbing'});
+el.addEventListener('pointermove',e=>{if(drag){const dx=e.clientX-lx,dy=e.clientY-ly;mv+=Math.abs(dx)+Math.abs(dy);vy=dx*.005;vx=dy*.005;lx=e.clientX;ly=e.clientY;G.rotation.y+=vy;G.rotation.x=Math.max(-1,Math.min(1,G.rotation.x+vx))}else{hov=pick(e);el.style.cursor=hov?'pointer':'grab'}if(rm)draw()});
+el.addEventListener('pointerup',e=>{drag=false;el.style.cursor='grab';if(mv<6){const c=pick(e);if(c){$('q').value=c.userData.n;cat();$('languages').scrollIntoView({behavior:rm?'auto':'smooth'})}}});
+new ResizeObserver(size).observe(box);
+function loop(t){if(!vis)return;if(!drag){vy*=.95;vx*=.95;G.rotation.y+=vy+.0025;G.rotation.x*=.98}
+cubes.forEach(c=>{c.userData.spin.rotation.y+=.012;c.scale.lerp(c===hov?big:one,.15)});
+core.rotation.y-=.004;wf.rotation.y+=.003;wf.rotation.x+=.002;core.scale.setScalar(1+Math.sin(t*.002)*.03);
+draw();requestAnimationFrame(loop)}
+size();if(!rm){new IntersectionObserver(es=>{const v=es[0].isIntersecting;if(v&&!vis){vis=true;requestAnimationFrame(loop)}else vis=v}).observe(box);requestAnimationFrame(loop)}}
+new IntersectionObserver((es,o)=>{if(es[0].isIntersecting){init();o.disconnect()}},{rootMargin:'200px'}).observe(box)})();
+(function(){const cv=$('sh'),ft=$('end');if(!cv)return;const gl=cv.getContext('webgl',{premultipliedAlpha:true,alpha:true});if(!gl){cv.remove();return}
+const vs='attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}';
+const fs='#ifdef GL_FRAGMENT_PRECISION_HIGH\nprecision highp float;\n#else\nprecision mediump float;\n#endif\nuniform vec2 r;uniform float t;uniform vec2 m;\nfloat h(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}\nfloat n(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(h(i),h(i+vec2(1.,0.)),f.x),mix(h(i+vec2(0.,1.)),h(i+vec2(1.,1.)),f.x),f.y);}\nfloat fbm(vec2 p){float v=0.,a=.5;for(int i=0;i<5;i++){v+=a*n(p);p=p*2.02+vec2(1.7,9.2);a*=.5;}return v;}\nvoid main(){vec2 p=(gl_FragCoord.xy-.5*r)/r.y;vec2 mm=(m-.5*r)/r.y;float d=length(p-mm);\np+=normalize(p-mm+vec2(.0001))*sin(d*14.-t*2.5)*exp(-d*3.)*.05;\nvec2 q=vec2(fbm(p*2.+t*.08),fbm(p*2.+vec2(5.2,1.3)-t*.06));\nvec2 w=vec2(fbm(p*2.+4.*q+vec2(1.7,9.2)+t*.1),fbm(p*2.+4.*q+vec2(8.3,2.8)-t*.08));\nfloat f=fbm(p*2.+4.*w);\nvec3 c=mix(vec3(.03,.03,.08),vec3(.55,.36,.97),smoothstep(.2,.8,f));\nc=mix(c,vec3(.13,.83,.93),smoothstep(.45,1.,length(q))*.7*f);\nc+=vec3(.3,.2,.6)*exp(-d*4.)*.35;\nfloat a=smoothstep(.15,.9,f)*.9+.1;\ngl_FragColor=vec4(c*a,a);}';
+function sh(t,s){const o=gl.createShader(t);gl.shaderSource(o,s);gl.compileShader(o);return o}
+const pr=gl.createProgram();gl.attachShader(pr,sh(gl.VERTEX_SHADER,vs));gl.attachShader(pr,sh(gl.FRAGMENT_SHADER,fs));gl.linkProgram(pr);
+if(!gl.getProgramParameter(pr,gl.LINK_STATUS)){cv.remove();return}
+gl.useProgram(pr);gl.bindBuffer(gl.ARRAY_BUFFER,gl.createBuffer());gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);const lp=gl.getAttribLocation(pr,'p');gl.enableVertexAttribArray(lp);gl.vertexAttribPointer(lp,2,gl.FLOAT,false,0,0);
+const ur=gl.getUniformLocation(pr,'r'),ut=gl.getUniformLocation(pr,'t'),um=gl.getUniformLocation(pr,'m');
+const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;let W=1,H=1,mx=0,my=0,tx=0,ty=0,vis=false;const t0=performance.now();
+function size(){const k=Math.min(devicePixelRatio||1,2)*.5;W=cv.width=Math.max(1,Math.round(cv.clientWidth*k));H=cv.height=Math.max(1,Math.round(cv.clientHeight*k));gl.viewport(0,0,W,H);if(!tx){tx=mx=W/2;ty=my=H*.6}}
+function draw(now){mx+=(tx-mx)*.08;my+=(ty-my)*.08;gl.uniform2f(ur,W,H);gl.uniform1f(ut,rm?12:(now-t0)/1000);gl.uniform2f(um,mx,my);gl.drawArrays(gl.TRIANGLES,0,3)}
+function loop(now){if(!vis)return;draw(now);requestAnimationFrame(loop)}
+addEventListener('pointermove',e=>{tx=e.clientX/innerWidth*W;ty=(1-e.clientY/innerHeight)*H;if(rm)draw(0)});
+new ResizeObserver(()=>{size();draw(performance.now())}).observe(cv);
+if(rm)draw(0);else{vis=true;requestAnimationFrame(loop)}})();
+(function(){
+if(!matchMedia("(hover:hover) and (pointer:fine)").matches||matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+const de=document.documentElement;de.classList.add("cc");
+const cv=document.createElement("canvas");cv.setAttribute("aria-hidden","true");cv.style.cssText="position:fixed;inset:0;width:100%;height:100%;z-index:97;pointer-events:none";document.body.appendChild(cv);
+const g=cv.getContext("2d"),dot=document.createElement("div"),rg=document.createElement("div");dot.id="cd";rg.id="cr";dot.setAttribute("aria-hidden","true");rg.setAttribute("aria-hidden","true");document.body.append(dot,rg);
+let W,H,D=Math.min(devicePixelRatio||1,2);function size(){W=innerWidth;H=innerHeight;cv.width=W*D;cv.height=H*D;g.setTransform(D,0,0,D,0,0)}size();addEventListener("resize",size);
+let x=-99,y=-99,dx=x,dy=y,rx=x,ry=y,rs=1,ts=1,on=false,down=false,lx=x,ly=y,P=[];
+const G=["{","}","<",">","/",";","=","()","[]","0","1","//","=>","&&"];
+function emit(px,py,vx,vy){P.push({x:px,y:py,vx,vy,a:(Math.random()-.5)*.8,va:(Math.random()-.5)*.06,l:1,s:11+Math.random()*7,c:G[Math.random()*G.length|0],k:Math.random()<.5})}
+addEventListener("pointermove",e=>{x=e.clientX;y=e.clientY;if(!on){on=true;dx=rx=lx=x;dy=ry=ly=y;dot.style.opacity=rg.style.opacity=1}
+const t=e.target.closest?e.target:null;rg.classList.toggle("hv",!!(t&&t.closest("a,button,summary,.card,[role=button]")));
+const tx=!!(t&&t.closest("textarea,input,select"));dot.classList.toggle("tx",tx);rg.classList.toggle("tx",tx);ts=rg.classList.contains("hv")?1.7:1});
+addEventListener("pointerdown",()=>{down=true;for(let i=0;i<14;i++){const a=i/14*6.283,v=2+Math.random()*3;emit(x,y,Math.cos(a)*v,Math.sin(a)*v)}});
+addEventListener("pointerup",()=>{down=false});
+de.addEventListener("mouseleave",()=>{on=false;dot.style.opacity=rg.style.opacity=0});
+const col=k=>de.dataset.theme==="light"?(k?"109,40,217":"8,145,178"):(k?"167,139,250":"34,211,238");
+function tick(){dx+=(x-dx)*.55;dy+=(y-dy)*.55;rx+=(x-rx)*.15;ry+=(y-ry)*.15;rs+=((down?.7:ts)-rs)*.2;
+const sp=Math.hypot(x-lx,y-ly);if(on&&sp>6&&Math.random()<.55){const m=Math.hypot(x-lx,y-ly)||1;emit(rx,ry,-(x-lx)/m*.6+(Math.random()-.5)*.8,-(y-ly)/m*.6+(Math.random()-.5)*.8)}lx=x;ly=y;
+dot.style.transform=`translate(${dx}px,${dy}px) scale(${down?1.5:1})`;rg.style.transform=`translate(${rx}px,${ry}px) scale(${rs}) rotate(${(rx-x)*.6}deg)`;
+g.clearRect(0,0,W,H);g.textAlign="center";g.textBaseline="middle";
+P=P.filter(p=>p.l>0.02);P.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=.02;p.vx*=.985;p.a+=p.va;p.l*=.955;g.save();g.translate(p.x,p.y);g.rotate(p.a);g.globalAlpha=p.l;g.fillStyle=`rgb(${col(p.k)})`;g.font=`600 ${p.s}px 'JetBrains Mono',monospace`;g.fillText(p.c,0,0);g.restore()});
+requestAnimationFrame(tick)}
+tick()})();
+(function(){const rm=matchMedia("(prefers-reduced-motion: reduce)").matches;
+document.querySelectorAll(".rv h2").forEach(h=>{if(h.children.length)return;h.setAttribute("aria-label",h.textContent);h.innerHTML=h.textContent.trim().split(/\s+/).map((w,i)=>`<span class="wd" aria-hidden="true" style="--w:${i}">${w}</span>`).join(" ")});
+const mq=document.createElement("div");mq.className="mq";mq.setAttribute("aria-hidden","true");const t=L.map(l=>`<span>${l[0]}</span>`).join("");mq.innerHTML=`<div>${t}${t}</div>`;$("core").before(mq);
+const so2=new IntersectionObserver((es,o)=>es.forEach(e=>{if(!e.isIntersecting)return;o.unobserve(e.target);e.target.querySelectorAll(".card,details,.ls button").forEach((c,i)=>{c.style.setProperty("--i",Math.min(i,12));c.classList.add("st")})}),{threshold:.1});
+document.querySelectorAll(".rv").forEach(x=>so2.observe(x));
+const _l=load;load=function(i){_l(i);const w=$("lt").parentElement;w.classList.remove("sw");void w.offsetWidth;w.classList.add("sw")};
+document.addEventListener("pointerdown",e=>{const b=e.target.closest&&e.target.closest(".btn");if(!b||rm)return;const r=b.getBoundingClientRect(),s=Math.max(r.width,r.height)/2,x=document.createElement("span");x.className="rpl";x.style.cssText=`width:${s}px;height:${s}px;left:${e.clientX-r.left-s/2}px;top:${e.clientY-r.top-s/2}px`;b.appendChild(x);setTimeout(()=>x.remove(),700)});
+if(!rm){["sx","sl","sd","ss"].forEach(id=>{const el=$(id);let cur=+el.textContent||0;new MutationObserver(()=>{if(el._a)return;const to=+el.textContent;if(isNaN(to)||to===cur)return;const from=cur;cur=to;el._a=1;const t0=performance.now();(function f(n){const k=Math.min(1,(n-t0)/700),e=1-Math.pow(1-k,3);el.textContent=Math.round(from+(to-from)*e);if(k<1)requestAnimationFrame(f);else el._a=0})(t0)}).observe(el,{childList:true,characterData:true})});
+const hg=document.querySelector(".hg>div:first-child"),bg=$("bg");let tk=false;
+addEventListener("scroll",()=>{if(tk)return;tk=true;requestAnimationFrame(()=>{tk=false;const y=scrollY;if(y<900){hg.style.transform=`translateY(${y*.14}px)`;hg.style.opacity=Math.max(0,1-y/650)}bg.style.transform=`translateY(${y*-.06}px)`})},{passive:true})}
+})();
+cmp();dash();setLang("JavaScript");
+</script></body></html>
